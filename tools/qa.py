@@ -11,7 +11,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else 'https://borisfen-site.vercel.app').rstrip('/') + '/'
 LOCAL = 'localhost' in BASE or '127.0.0.1' in BASE
-PAGES = ['', 'navchannya.html', 'batkam.html'] if LOCAL else ['', 'navchannya', 'batkam']  # cleanUrls лише на Vercel
+PAGES = ['', 'navchannya.html', 'batkam.html', 'modeli.html'] if LOCAL else ['', 'navchannya', 'batkam', 'modeli']  # cleanUrls лише на Vercel
 UA = {'User-Agent': 'BorysfenQA/1.0'}
 problems, checked = [], 0
 
