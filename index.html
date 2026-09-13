@@ -236,7 +236,7 @@
           const [vt, vc] = verdict(days.wind_speed_10m_max[i], days.wind_gusts_10m_max[i]);
           weekend.push({ name: wd === 6 ? 'Субота' : 'Неділя', date: dt.getDate(), v: Math.round(days.wind_speed_10m_max[i]), g: Math.round(days.wind_gusts_10m_max[i]), dir: dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8], deg: days.wind_direction_10m_dominant[i], rain: days.precipitation_probability_max[i], temp: Math.round(days.temperature_2m_max[i]), vt, vc });
         });
-        $('wind-weekend').innerHTML = '<div class="hero__wind-title">Вітер на вихідних</div>' + weekend.slice(0, 2).map(w => {
+        $('wind-weekend').innerHTML = '<div class="hero__wind-title">Чи льотна погода на вихідних?</div>' + weekend.slice(0, 2).map(w => {
           const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
           const rain = w.rain >= 50 ? ' · дощ ' + w.rain + '%' : '';
           return '<div class="hero__wind-day is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong> <span>' + w.v + ' м/с, ' + w.dir + ' ' + arrow + ' · до ' + w.temp + ' °C' + rain + ' ·</span> <b class="hero__wind-verdict">' + w.vt + '</b></div>';
