@@ -206,7 +206,7 @@
       const $ = id => document.getElementById(id);
       const dirs = ['Пн','ПнСх','Сх','ПдСх','Пд','ПдЗх','Зх','ПнЗх'];
       // пороги для легкої пінопластової моделі (тренер, Слойка): вітер / пориви, м/с
-      const verdict = (v, g) => v > 6 || g > 9 ? ['Легка модель: ні', 'bad'] : v > 4 || g > 7 ? ['Легка модель: обережно', 'meh'] : ['Легка модель: можна', 'good'];
+      const verdict = (v, g) => v > 6 || g > 9 ? ['не літаємо', 'bad'] : v > 4 || g > 7 ? ['літати обережно', 'meh'] : ['можна літати', 'good'];
       try {
         const url = 'https://api.open-meteo.com/v1/forecast?latitude=50.45&longitude=30.52&daily=wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,precipitation_probability_max,temperature_2m_max&wind_speed_unit=ms&timezone=Europe%2FKyiv&forecast_days=7';
         const d = await (await fetch(url)).json();
@@ -220,7 +220,7 @@
         $('wind-weekend').innerHTML = '<div class="hero__wind-title">Вітер на вихідних</div>' + weekend.slice(0, 2).map(w => {
           const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
           const rain = w.rain >= 50 ? ' · дощ ' + w.rain + '%' : '';
-          return '<div class="hero__wind-day is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong> ' + w.vt.replace('Легка модель: ', '') + ' <span>· ' + w.v + ' м/с, ' + w.dir + ' ' + arrow + ' · до ' + w.temp + ' °C' + rain + '</span></div>';
+          return '<div class="hero__wind-day is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong> <span>' + w.v + ' м/с, ' + w.dir + ' ' + arrow + ' · до ' + w.temp + ' °C' + rain + ' ·</span> <b class="hero__wind-verdict">' + w.vt + '</b></div>';
         }).join('');
       } catch (e) {
         $('wind-weekend').textContent = '';

@@ -529,8 +529,9 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 .hero__wind-day { font-size: 15px; line-height: 26px; font-weight: 300; }
 .hero__wind-day strong { font-weight: 500; }
 .hero__wind-day span { opacity: 0.9; }
-.hero__wind-day.is-good strong { color: var(--accent); }
-.hero__wind-day.is-meh strong { color: #f5b400; }
-.hero__wind-day.is-bad strong { color: #ff7b6b; }
+.hero__wind-verdict { font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; font-size: 14px; }
+.hero__wind-day.is-good .hero__wind-verdict { color: var(--accent); }
+.hero__wind-day.is-meh .hero__wind-verdict { color: #f5b400; }
+.hero__wind-day.is-bad .hero__wind-verdict { color: #ff7b6b; }
 .hero__wind .wind__arrow { display: inline-block; color: var(--accent); }
 @media (max-width: 820px) { .hero__wind { right: 16px; left: 16px; bottom: 9%; text-align: center; } .hero__wind-day { font-size: 13px; line-height: 22px; } }
