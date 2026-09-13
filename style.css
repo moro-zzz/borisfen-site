@@ -149,17 +149,19 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   filter: drop-shadow(0 24px 34px rgba(10, 40, 70, 0.35));
   pointer-events: none;
   will-change: transform;
-  animation: fly 18s ease-in-out infinite;
+  animation: fly 22s linear infinite;
 }
 
 /* траєкторія: зʼявляється справа знизу, дуга над заголовком, відліт уліво */
 @keyframes fly {
-  0%   { transform: translate(108vw, 70vh) rotate(-6deg); }
-  18%  { transform: translate(68vw, 44vh) rotate(-14deg); }
-  30%  { transform: translate(68vw, 42vh) rotate(-12deg); }
-  50%  { transform: translate(44vw, -6vh) rotate(-24deg); }
-  66%  { transform: translate(22vw, -8vh) rotate(-40deg); }
-  84%  { transform: translate(2vw, 14vh) rotate(-52deg); }
+  0%   { transform: translate(108vw, 72vh) rotate(-8deg); }
+  12%  { transform: translate(84vw, 56vh) rotate(-12deg); }
+  24%  { transform: translate(66vw, 36vh) rotate(-17deg); }
+  36%  { transform: translate(52vw, 14vh) rotate(-23deg); }
+  48%  { transform: translate(40vw, -2vh) rotate(-30deg); }
+  60%  { transform: translate(28vw, -8vh) rotate(-38deg); }
+  72%  { transform: translate(16vw, -2vh) rotate(-46deg); }
+  84%  { transform: translate(4vw, 14vh) rotate(-53deg); }
   100% { transform: translate(-40vw, 44vh) rotate(-58deg); }
 }
 
@@ -280,7 +282,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 @media (max-width: 820px) {
   .hero__sky { background-position: 72% top; }
-  .hero__plane { width: 64vw; animation-duration: 16s; }
+  .hero__plane { width: 64vw; animation-duration: 18s; }
   .nav { display: none; }
   .burger { display: flex; }
   .hero__arrow { display: none; }
