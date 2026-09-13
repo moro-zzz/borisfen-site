@@ -68,7 +68,6 @@
       <div class="hero__text">
         <h1 class="hero__title">Підкорюй небо</h1>
         <p class="hero__subtitle">Авіамодельний клуб «Борисфен»</p>
-        <a href="#about" class="btn">Дізнатися більше</a>
       </div>
     </div>
 
@@ -187,19 +186,41 @@
 
 
   <script>
-    // Траєкторія польоту моделі: перераховується від розміру hero
+    // Траєкторії польоту моделі: 6 маршрутів у частках розміру hero, на кожному колі випадковий новий
     (function () {
       const hero = document.querySelector('.hero');
       const plane = document.querySelector('.hero__plane');
       if (!hero || !plane) return;
-      function setPath() {
+      // координати: x у частках ширини, y у частках висоти; центр моделі має лишатися вище 0.36 над серединою екрана
+      const ROUTES = [
+        // 1. справа знизу дугою над заголовком, відліт ліворуч
+        'M 1.12 0.78 C 0.92 0.60 0.74 0.36 0.52 0.26 S 0.22 0.20 0.06 0.24 S -0.22 0.32 -0.40 0.30',
+        // 2. дзеркально: зліва знизу дугою, відліт праворуч
+        'M -0.12 0.78 C 0.08 0.60 0.26 0.36 0.48 0.26 S 0.78 0.20 0.94 0.24 S 1.22 0.32 1.40 0.30',
+        // 3. високий прохід зліва направо з легкою хвилею
+        'M -0.15 0.22 C 0.10 0.16 0.30 0.30 0.50 0.24 S 0.80 0.14 0.95 0.22 S 1.15 0.30 1.30 0.24',
+        // 4. набір висоти вздовж правого краю, потім через верх наліво
+        'M 1.10 0.90 C 0.98 0.70 0.90 0.48 0.86 0.30 C 0.82 0.14 0.60 0.16 0.42 0.20 S 0.10 0.30 -0.30 0.26',
+        // 5. набір висоти вздовж лівого краю, потім через верх направо
+        'M -0.10 0.90 C 0.02 0.70 0.10 0.48 0.14 0.30 C 0.18 0.14 0.40 0.16 0.58 0.20 S 0.90 0.30 1.30 0.26',
+        // 6. пологий S справа наліво
+        'M 1.15 0.30 C 0.95 0.36 0.80 0.16 0.60 0.20 S 0.30 0.34 0.15 0.24 S -0.10 0.16 -0.30 0.22'
+      ];
+      let current = -1;
+      function toPx(route) {
         const W = hero.clientWidth, H = hero.clientHeight;
-        const p = (x, y) => `${(x * W).toFixed(0)} ${(y * H).toFixed(0)}`;
-        const d = `M ${p(1.12, 0.78)} C ${p(0.92, 0.60)} ${p(0.74, 0.36)} ${p(0.52, 0.26)} S ${p(0.22, 0.20)} ${p(0.06, 0.24)} S ${p(-0.22, 0.32)} ${p(-0.40, 0.30)}`;
-        plane.style.setProperty('--fly', JSON.stringify(d));
+        return route.replace(/(-?[\d.]+) (-?[\d.]+)/g, (m, x, y) => `${(x * W).toFixed(0)} ${(y * H).toFixed(0)}`);
       }
-      setPath();
-      window.addEventListener('resize', setPath);
+      function pick() {
+        let i;
+        do { i = Math.floor(Math.random() * ROUTES.length); } while (i === current && ROUTES.length > 1);
+        current = i;
+        plane.style.setProperty('--fly', JSON.stringify(toPx(ROUTES[i])));
+        plane.style.animationDuration = (18 + Math.random() * 8).toFixed(1) + 's';
+      }
+      pick();
+      plane.addEventListener('animationiteration', pick);
+      window.addEventListener('resize', () => plane.style.setProperty('--fly', JSON.stringify(toPx(ROUTES[current]))));
     })();
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/js/glightbox.min.js"></script>
