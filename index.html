@@ -23,7 +23,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css" integrity="sha384-GPAzSuZc0kFvdIev6wm9zg8gnafE8tLso7rsAYQfc9hAdWCpOcpcNI5W9lWkYcsd" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css?v=202609132338">
+  <link rel="stylesheet" href="style.css?v=202609132350">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -82,6 +82,10 @@
       </div>
     </div>
 
+    <div class="hero__mode" role="group" aria-label="Режим польоту моделі">
+      <button type="button" class="hero__mode-btn is-on" data-mode="auto" aria-pressed="true">AUTO</button>
+      <button type="button" class="hero__mode-btn" data-mode="manual" aria-pressed="false">MANUAL</button>
+    </div>
     <svg class="hero__hud" id="hud" preserveAspectRatio="none" aria-hidden="true">
       <g id="hud-heading"></g>
       <g id="hud-roll"></g>
@@ -291,6 +295,9 @@
       const HOVER = window.matchMedia('(hover: hover)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const wrap = a => ((a + 540) % 360) - 180, clamp = (v, a, b) => Math.max(a, Math.min(b, v));
       let manual = false, leaving = false, engaging = false, lastInput = 0, mouse = null, lastT = 0, moveSince = 0, lastMove = 0;
+      let lock = false;   // MANUAL обрано кнопкою: без автоматичного повернення на автопілот
+      const modeBtns = hero.querySelectorAll('.hero__mode-btn');
+      function showMode(m) { modeBtns.forEach(b => { const on = b.dataset.mode === m; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); }); }
       let px = 0, py = 0, th = 0, spd = 0, turn = 0, inView = true;
       const ctl = { ail: 0, ele: 0 };   // правий стік HUD у ручному режимі: вектор від моделі до курсора, плавно
       new IntersectionObserver(en => { inView = en[0].isIntersecting; }, { threshold: 0.05 }).observe(hero);
@@ -298,7 +305,7 @@
         const r = plane.getBoundingClientRect(), hr = hero.getBoundingClientRect();
         return { x: r.left - hr.left + r.width / 2, y: r.top - hr.top + r.height / 2 };
       }
-      function engage() {
+      function engage(force) {
         lastInput = performance.now();
         if (manual) { leaving = false; return; }
         if (engaging) return;
@@ -307,18 +314,18 @@
         const c0 = centre();
         requestAnimationFrame(() => requestAnimationFrame(() => {
           engaging = false;
-          if (manual || !mouse) return;
+          if (manual || (!mouse && !force)) return;
           const c1 = centre();
           px = c1.x; py = c1.y;
           th = (c1.x !== c0.x || c1.y !== c0.y) ? Math.atan2(c1.x - c0.x, -(c1.y - c0.y)) / RAD : 0;
           spd = hero.clientWidth * 0.07; turn = 0; lastT = 0;
           plane.style.animation = 'none'; plane.style.offsetPath = 'none';
-          manual = true; leaving = false; hero.classList.add('is-manual');
+          manual = true; leaving = false; hero.classList.add('is-manual'); showMode('manual');
           requestAnimationFrame(step);
         }));
       }
       function release() {
-        manual = false; leaving = false; mouse = null; moveSince = 0; hero.classList.remove('is-manual'); window.__ctl = null; ctl.ail = ctl.ele = 0;
+        manual = false; leaving = false; lock = false; mouse = null; moveSince = 0; hero.classList.remove('is-manual'); window.__ctl = null; ctl.ail = ctl.ele = 0; showMode('auto');
         // на час перезапуску CSS-анімації модель ховаємо, інакше на кадр може блимнути в куті
         plane.style.visibility = 'hidden';
         plane.style.transform = ''; plane.style.offsetPath = '';
@@ -351,7 +358,7 @@
         if (!leaving) {
           if (px < -m) px = W + m; else if (px > W + m) px = -m;
           if (py < HEADER - m) py = H + m; else if (py > H + m) py = HEADER - m;
-          if (t - lastInput > IDLE) leaving = true;
+          if (!lock && t - lastInput > IDLE) leaving = true;
         } else if (px < -w || px > W + w || py < -hh || py > H + hh) { release(); return; }
         plane.style.transform = 'translate(' + (px - w / 2) + 'px, ' + (py - hh / 2) + 'px) rotate(' + (th + NOSE) + 'deg)';
         requestAnimationFrame(step);
@@ -370,6 +377,10 @@
         });
         hero.addEventListener('mouseleave', () => { mouse = null; moveSince = 0; lastInput = performance.now(); });
       }
+      modeBtns.forEach(b => b.addEventListener('click', () => {
+        if (b.dataset.mode === 'manual') { lock = true; engage(true); showMode('manual'); }
+        else { lock = false; if (manual) leaving = true; }   // AUTO: модель відлітає за екран і повертається на маршрут
+      }));
       window.addEventListener('resize', () => plane.style.setProperty('--fly', JSON.stringify(toPx(ROUTES[current]))));
     })();
   </script>
@@ -564,7 +575,7 @@
         ['Навчання з 12 років', 'Симулятор · майстерня · перші польоти з інструктором'],
         ['Польотні дні щосуботи та неділі', 'Тренери · пілотажні моделі · копії'],
         ['Клубні змагання', 'EPA Combat · пілотаж · планери'],
-        ['Керуй моделлю сам', 'Веди курсором над небом · без руху 5 с — автопілот']
+        ['Керуй моделлю сам', 'Веди курсором над небом або перемкни MANUAL · AUTO повертає маршрут']
       ];
       let inView = true;
       new IntersectionObserver(en => { inView = en[0].isIntersecting; }, { threshold: 0.1 }).observe(hero);
