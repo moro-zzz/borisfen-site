@@ -247,9 +247,10 @@
         $('wind-arrows').innerHTML = weekend.slice(0, 2).map((w, i) => {
           const L = Math.min(46, 14 + w.v * 6), col = i === 0 ? '#47ded9' : '#ffffff', rot = (w.deg + 180) % 360;
           const short = w.name === 'Субота' ? 'Сб' : 'Нд';
-          // одна суцільна фігура: древко + наконечник
-          const shape = '0,' + L + ' -2,' + L + ' -2,-' + (L - 12) + ' -7,-' + (L - 12) + ' 0,-' + L + ' 7,-' + (L - 12) + ' 2,-' + (L - 12) + ' 2,' + L;
-          return '<g transform="rotate(' + rot + ')"><polygon points="' + shape + '" fill="' + col + '" stroke="rgba(0,0,0,0.35)" stroke-width="0.6"/>' +
+          // пунктирне древко + суцільний наконечник
+          return '<g transform="rotate(' + rot + ')">' +
+            '<line x1="0" y1="' + L + '" x2="0" y2="-' + (L - 12) + '" stroke="' + col + '" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 4"/>' +
+            '<polygon points="0,-' + L + ' -6.5,-' + (L - 12) + ' 6.5,-' + (L - 12) + '" fill="' + col + '"/>' +
             '<text x="0" y="' + (L + 10) + '" text-anchor="middle" font-size="8" font-weight="500" fill="' + col + '" transform="rotate(' + (-rot + 44) + ' 0 ' + (L + 7) + ')">' + short + '</text></g>';
         }).join('');
       } catch (e) {
