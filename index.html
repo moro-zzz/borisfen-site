@@ -23,7 +23,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css" integrity="sha384-GPAzSuZc0kFvdIev6wm9zg8gnafE8tLso7rsAYQfc9hAdWCpOcpcNI5W9lWkYcsd" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css?v=202609132352">
+  <link rel="stylesheet" href="style.css?v=202609132354">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -82,9 +82,9 @@
       </div>
     </div>
 
-    <div class="hero__mode" role="group" aria-label="Режим польоту моделі">
-      <button type="button" class="hero__mode-btn is-on" data-mode="auto" aria-pressed="true">AUTO</button>
-      <button type="button" class="hero__mode-btn" data-mode="manual" aria-pressed="false">MANUAL</button>
+    <div class="hero__mode">
+      <span class="hero__mode-label" aria-hidden="true">MODE</span>
+      <button type="button" class="hero__mode-btn" data-mode="auto" aria-label="Режим польоту моделі: AUTO. Натисніть, щоб перемкнути">AUTO</button>
     </div>
     <svg class="hero__hud" id="hud" preserveAspectRatio="none" aria-hidden="true">
       <g id="hud-heading"></g>
@@ -296,8 +296,8 @@
       const wrap = a => ((a + 540) % 360) - 180, clamp = (v, a, b) => Math.max(a, Math.min(b, v));
       let manual = false, leaving = false, engaging = false, lastInput = 0, mouse = null, lastT = 0, moveSince = 0, lastMove = 0;
       let lock = false;   // MANUAL обрано кнопкою: без автоматичного повернення на автопілот
-      const modeBtns = hero.querySelectorAll('.hero__mode-btn');
-      function showMode(m) { modeBtns.forEach(b => { const on = b.dataset.mode === m; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); }); }
+      const modeBtn = hero.querySelector('.hero__mode-btn');
+      function showMode(m) { if (!modeBtn) return; modeBtn.dataset.mode = m; modeBtn.textContent = m.toUpperCase(); modeBtn.classList.toggle('is-manual', m === 'manual'); modeBtn.setAttribute('aria-label', 'Режим польоту моделі: ' + m.toUpperCase() + '. Натисніть, щоб перемкнути'); }
       let px = 0, py = 0, th = 0, spd = 0, turn = 0, inView = true;
       const ctl = { ail: 0, ele: 0 };   // правий стік HUD у ручному режимі: вектор від моделі до курсора, плавно
       new IntersectionObserver(en => { inView = en[0].isIntersecting; }, { threshold: 0.05 }).observe(hero);
@@ -378,10 +378,10 @@
         // курсор вийшов із зони керування: одразу AUTO (модель відлітає за екран і повертається на маршрут)
         hero.addEventListener('mouseleave', () => { mouse = null; moveSince = 0; lastInput = performance.now(); if (manual) { lock = false; leaving = true; showMode('auto'); } });
       }
-      modeBtns.forEach(b => b.addEventListener('click', () => {
-        if (b.dataset.mode === 'manual') { lock = true; engage(true); showMode('manual'); }
+      if (modeBtn) modeBtn.addEventListener('click', () => {
+        if (modeBtn.dataset.mode === 'auto') { lock = true; engage(true); showMode('manual'); }
         else { lock = false; if (manual) { leaving = true; showMode('auto'); } }   // AUTO: модель відлітає за екран і повертається на маршрут
-      }));
+      });
       window.addEventListener('resize', () => plane.style.setProperty('--fly', JSON.stringify(toPx(ROUTES[current]))));
     })();
   </script>
