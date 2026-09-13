@@ -160,6 +160,29 @@
   </section>
   <!--/GALLERY-->
 
+  <section class="wind" id="wind">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-head__kicker">Погода на полі</p>
+        <h2 class="section-head__title">Вітер у Києві</h2>
+      </div>
+      <div class="wind__grid" id="wind-widget" aria-live="polite">
+        <div class="wind__now">
+          <div class="wind__big"><span id="wind-speed">–</span><small>м/с</small></div>
+          <div class="wind__meta">
+            <div>Пориви до <strong id="wind-gust">–</strong> м/с</div>
+            <div>Напрямок <strong id="wind-dir">–</strong> <span class="wind__arrow" id="wind-arrow" aria-hidden="true">➤</span></div>
+            <div>Температура <strong id="wind-temp">–</strong> °C</div>
+          </div>
+          <p class="wind__verdict" id="wind-verdict">Завантажую дані…</p>
+        </div>
+        <div class="wind__days" id="wind-days"></div>
+      </div>
+      <p class="wind__note">Дані Open-Meteo для Києва, оновлюються щогодини. Орієнтир для навчальних моделей: до 5 м/с комфортно, 5–8 м/с лише досвідченим, понад 8 м/с польоти скасовуємо. Остаточне рішення завжди за Керівником на полі.</p>
+    </div>
+  </section>
+
+
   <script>
     // Траєкторія польоту моделі: перераховується від розміру hero
     (function () {
@@ -196,6 +219,35 @@
       burger.addEventListener('click', () => toggle(!nav.classList.contains('is-open')));
       nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
       document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
+    })();
+  </script>
+  <script>
+    (async function () {
+      const $ = id => document.getElementById(id);
+      const dirs = ['Пн','ПнСх','Сх','ПдСх','Пд','ПдЗх','Зх','ПнЗх'];
+      const verdict = (v, g) => v > 8 || g > 12 ? ['Польоти скасовуємо', 'bad'] : v > 5 ? ['Лише для досвідчених', 'meh'] : ['Літна погода', 'good'];
+      try {
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=50.45&longitude=30.52&current=temperature_2m,wind_speed_10m,wind_gusts_10m,wind_direction_10m&daily=wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,precipitation_probability_max,temperature_2m_max&wind_speed_unit=ms&timezone=Europe%2FKyiv&forecast_days=4';
+        const d = await (await fetch(url)).json();
+        const c = d.current;
+        $('wind-speed').textContent = Math.round(c.wind_speed_10m);
+        $('wind-gust').textContent = Math.round(c.wind_gusts_10m);
+        $('wind-dir').textContent = dirs[Math.round(c.wind_direction_10m / 45) % 8];
+        $('wind-arrow').style.transform = 'rotate(' + (c.wind_direction_10m + 90) + 'deg)';
+        $('wind-temp').textContent = Math.round(c.temperature_2m);
+        const [txt, cls] = verdict(c.wind_speed_10m, c.wind_gusts_10m);
+        const v = $('wind-verdict'); v.textContent = txt; v.className = 'wind__verdict is-' + cls;
+        const days = d.daily, names = ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
+        $('wind-days').innerHTML = days.time.map((t, i) => {
+          const dt = new Date(t + 'T12:00:00'); const [vt, vc] = verdict(days.wind_speed_10m_max[i], days.wind_gusts_10m_max[i]);
+          return '<div class="wind__day is-' + vc + '"><div class="wind__day-name">' + (i === 0 ? 'Сьогодні' : names[dt.getDay()] + ' ' + dt.getDate()) + '</div>' +
+            '<div class="wind__day-speed">' + Math.round(days.wind_speed_10m_max[i]) + ' <small>м/с</small></div>' +
+            '<div class="wind__day-meta">пориви ' + Math.round(days.wind_gusts_10m_max[i]) + ' м/с · ' + dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8] + ' · ' + Math.round(days.temperature_2m_max[i]) + '°C · дощ ' + days.precipitation_probability_max[i] + '%</div>' +
+            '<div class="wind__day-verdict">' + vt + '</div></div>';
+        }).join('');
+      } catch (e) {
+        $('wind-verdict').textContent = 'Не вдалося отримати дані про вітер. Спробуйте оновити сторінку.';
+      }
     })();
   </script>
 </body>

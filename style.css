@@ -486,3 +486,28 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 .model__history { font-size: 14px; }
 .model__files a { color: #1d5b8a; text-decoration: underline; text-underline-offset: 2px; }
 @media (max-width: 900px) { .model { grid-template-columns: 1fr; gap: 20px; } .model__name { font-size: 28px; } }
+
+/* ---------- Вітер (головна) ---------- */
+.wind { padding: 0 0 100px; }
+.wind__grid { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; }
+.wind__now { padding: 28px; background: linear-gradient(180deg, #0f2a44, #1d5b8a); color: #fff; }
+.wind__big { font-weight: 300; font-size: 72px; line-height: 1; }
+.wind__big small { font-size: 18px; margin-left: 8px; opacity: 0.8; }
+.wind__meta { margin-top: 18px; font-size: 14px; line-height: 26px; opacity: 0.95; }
+.wind__arrow { display: inline-block; margin-left: 6px; color: var(--accent); transition: transform 0.6s; }
+.wind__verdict { display: inline-block; margin-top: 18px; padding: 6px 14px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(255, 255, 255, 0.15); }
+.wind__verdict.is-good { background: var(--accent); color: #0b0b0b; }
+.wind__verdict.is-meh { background: #f5b400; color: #0b0b0b; }
+.wind__verdict.is-bad { background: #e0533e; }
+.wind__days { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.wind__day { padding: 18px 16px; border: 1px solid #eee; border-top: 3px solid #ccc; background: #fff; }
+.wind__day.is-good { border-top-color: var(--accent); }
+.wind__day.is-meh { border-top-color: #f5b400; }
+.wind__day.is-bad { border-top-color: #e0533e; }
+.wind__day-name { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.wind__day-speed { margin-top: 6px; font-weight: 300; font-size: 34px; line-height: 1.1; color: #111; }
+.wind__day-speed small { font-size: 13px; }
+.wind__day-meta { margin-top: 8px; font-size: 12px; line-height: 18px; color: #666; }
+.wind__day-verdict { margin-top: 10px; font-size: 12px; font-weight: 500; color: #111; }
+.wind__note { max-width: 860px; margin: 22px auto 0; text-align: center; font-size: 12px; line-height: 20px; color: var(--muted); }
+@media (max-width: 900px) { .wind__grid { grid-template-columns: 1fr; } .wind__days { grid-template-columns: repeat(2, 1fr); } }
