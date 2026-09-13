@@ -73,7 +73,8 @@
 
     <div class="hero__wind">
       <div class="hero__wind-text" id="wind-weekend" aria-live="polite"></div>
-      <svg class="hero__field" viewBox="-78 -66 156 132" aria-label="Схема льотного поля з напрямком вітру">
+      <div class="hero__wind-map">
+<svg class="hero__field" viewBox="-78 -66 156 132" aria-label="Схема льотного поля з напрямком вітру">
         <g>
           <!-- поле рівно; довга вісь у реальності за азимутом 134° (OpenStreetMap), тому компас повернуто на -44° -->
           <g fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.2">
@@ -90,7 +91,8 @@
           </g>
         </g>
       </svg>
-      <div class="hero__wind-legend">стрілка: напрямок зльоту, проти вітру</div>
+      <div class="hero__wind-legend">стрілки: напрямок зльоту на 3 найближчі дні</div>
+      </div>
     </div>
   </section>
 
@@ -230,27 +232,28 @@
       try {
         const url = 'https://api.open-meteo.com/v1/forecast?latitude=50.45&longitude=30.52&daily=wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,precipitation_probability_max,temperature_2m_max&wind_speed_unit=ms&timezone=Europe%2FKyiv&forecast_days=7';
         const d = await (await fetch(url)).json();
-        const days = d.daily, weekend = [];
+        const days = d.daily, names = ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'], list = [];
         days.time.forEach((t, i) => {
           const dt = new Date(t + 'T12:00:00'), wd = dt.getDay();
-          if (wd !== 0 && wd !== 6) return;
           const [vt, vc] = verdict(days.wind_speed_10m_max[i], days.wind_gusts_10m_max[i]);
-          weekend.push({ name: wd === 6 ? 'Субота' : 'Неділя', date: dt.getDate(), v: Math.round(days.wind_speed_10m_max[i]), g: Math.round(days.wind_gusts_10m_max[i]), dir: dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8], deg: days.wind_direction_10m_dominant[i], rain: days.precipitation_probability_max[i], temp: Math.round(days.temperature_2m_max[i]), vt, vc });
+          list.push({ short: names[wd], label: i === 0 ? 'Сьогодні' : names[wd] + ' ' + dt.getDate(), isWe: wd === 0 || wd === 6,
+            v: Math.round(days.wind_speed_10m_max[i]), g: Math.round(days.wind_gusts_10m_max[i]),
+            dir: dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8], deg: days.wind_direction_10m_dominant[i],
+            rain: days.precipitation_probability_max[i], temp: Math.round(days.temperature_2m_max[i]), vt, vc });
         });
-        $('wind-weekend').innerHTML = '<div class="hero__wind-title">Чи льотна погода на вихідних?</div>' + weekend.slice(0, 2).map(w => {
+        $('wind-weekend').innerHTML = '<div class="hero__wind-title">Чи льотна погода цього тижня?</div>' + list.map(w => {
           const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
           const rain = w.rain >= 50 ? ' · дощ ' + w.rain + '%' : '';
-          return '<div class="hero__wind-day is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong> <span>' + w.v + ' м/с, ' + w.dir + ' ' + arrow + ' · до ' + w.temp + ' °C' + rain + ' ·</span> <b class="hero__wind-verdict">' + w.vt + '</b></div>';
+          const gust = w.g >= 7 ? ' (пориви ' + w.g + ')' : '';
+          return '<div class="hero__wind-day is-' + w.vc + (w.isWe ? ' is-weekend' : '') + '"><strong>' + w.label + '</strong> <span>' + w.v + ' м/с' + gust + ', ' + w.dir + ' ' + arrow + ' · до ' + w.temp + ' °C' + rain + ' ·</span> <b class="hero__wind-verdict">' + w.vt + '</b></div>';
         }).join('');
-        // стрілка показує, куди дме вітер (метео-напрямок = звідки), довжина за силою
-        $('wind-arrows').innerHTML = weekend.slice(0, 2).map((w, i) => {
-          // зліт проти вітру: курс = метео-напрямок вітру; поле повернуто на 44°, тому в системі схеми мінус 44°
-          const col = i === 0 ? '#47ded9' : '#ffffff', short = w.name === 'Субота' ? 'Сб' : 'Нд';
+        // стрілки зльоту на 3 найближчі дні
+        const cols = ['#47ded9', '#ffffff', '#f5b400'];
+        $('wind-arrows').innerHTML = list.slice(0, 3).map((w, i) => {
+          const col = cols[i], short = w.short;
           const deg = w.deg - 44, th = deg * Math.PI / 180, dx = Math.sin(th), dy = -Math.cos(th);
           const t = Math.min(52 / Math.max(Math.abs(dx), 1e-6), 36 / Math.max(Math.abs(dy), 1e-6));
-          const sx = -t * dx, sy = -t * dy;                 // старт: кромка поля з підвітряного боку
-          const ex = t * dx * 0.9, ey = t * dy * 0.9;       // кінець стрілки: майже протилежна кромка
-          const bx = sx + dx * 14, by = sy + dy * 14;       // початок пунктиру, після літачка
+          const sx = -t * dx, sy = -t * dy, ex = t * dx * 0.9, ey = t * dy * 0.9, bx = sx + dx * 14, by = sy + dy * 14;
           const r = v => Math.round(v * 10) / 10;
           return '<g>' +
             '<line x1="' + r(bx) + '" y1="' + r(by) + '" x2="' + r(ex) + '" y2="' + r(ey) + '" stroke="' + col + '" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 3"/>' +
