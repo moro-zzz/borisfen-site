@@ -9,8 +9,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css">
-  <link rel="stylesheet" href="style.css?v=202609132258">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="preload" as="image" href="img/hero.jpg" fetchpriority="high">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="uk_UA">
+  <meta property="og:site_name" content="Авіамодельний клуб «Борисфен»">
+  <meta property="og:title" content="Борисфен — авіамодельний клуб">
+  <meta property="og:description" content="Навчання радіокерованому авіамоделюванню з 12 років: симулятор, майстерня, польоти з інструктором, змагання.">
+  <meta property="og:url" content="https://borisfen-site.vercel.app/">
+  <meta property="og:image" content="https://borisfen-site.vercel.app/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css" integrity="sha384-GPAzSuZc0kFvdIev6wm9zg8gnafE8tLso7rsAYQfc9hAdWCpOcpcNI5W9lWkYcsd" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css?v=202609132321">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -59,13 +72,13 @@
     <div class="hero__sky" aria-hidden="true"></div>
     <div class="hero__clouds" aria-hidden="true"></div>
 
-    <img class="hero__plane" src="img/hero-plane.png" alt="Пілотажна модель клубу в польоті" width="900" height="521">
+    <img class="hero__plane" src="img/hero-plane.png" fetchpriority="high" alt="Пілотажна модель клубу в польоті" width="900" height="521">
 
 
     <div class="container hero__content">
       <div class="hero__text">
-        <h1 class="hero__title osd-msgs">Авіамодельний клуб «Борисфен»</h1>
-        <p class="hero__subtitle">Підкорюй небо</p>
+        <h1 class="hero__title"><span class="visually-hidden">Авіамодельний клуб «Борисфен»</span><span class="hero__osd" aria-hidden="true">Авіамодельний клуб «Борисфен»</span></h1>
+        <p class="hero__subtitle"><span class="visually-hidden">Підкорюй небо</span><span class="hero__osd" aria-hidden="true">Підкорюй небо</span></p>
       </div>
     </div>
 
@@ -94,10 +107,8 @@
             <rect x="-52" y="-20" width="16" height="40"/>
             <rect x="36" y="-20" width="16" height="40"/>
           </g>
-          <!-- стрілки зльоту (проти вітру) в системі поля: азимут мінус 44° -->
+          <!-- стрілки напрямку пуску моделі (проти вітру) -->
           <g id="wind-arrows"></g>
-          <g transform="rotate(-44)">
-          </g>
         </g>
       </svg>
       <div class="hero__wind-legend">Напрямок пуску</div>
@@ -192,6 +203,41 @@
   </section>
   <!--/GALLERY-->
 
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-head__kicker">Про клуб</p>
+        <h2 class="section-head__title">Авіамодельний клуб «Борисфен»</h2>
+      </div>
+      <div class="about__grid">
+        <div class="about__text">
+          <p>«Борисфен» — клуб радіокерованого авіамоделювання для дітей від 12 років і дорослих. Ми будуємо, налаштовуємо й запускаємо моделі літаків: від тренерів для перших польотів до пілотажних моделей і копій.</p>
+          <p>Заняття йдуть за навчальною програмою з трьох рівнів: симулятор і теорія, майстерня, польоти з інструктором на польовому тренажері «вчитель-учень». Далі — клубні змагання: повітряний бій EPA Combat, пілотаж, планери.</p>
+          <p>Польотні дні — щосуботи та неділі, за льотної погоди. Прогноз і напрямок пуску моделі на найближчі дні є на головній сторінці.</p>
+        </div>
+        <ul class="about__facts">
+          <li><strong>12+</strong><span>вік вихованців</span></li>
+          <li><strong>3</strong><span>рівні навчання</span></li>
+          <li><strong>Сб · Нд</strong><span>польотні дні</span></li>
+          <li><strong>EPA Combat</strong><span>клубні змагання</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacts" id="contacts">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-head__kicker">Контакти</p>
+        <h2 class="section-head__title">Як записатися</h2>
+      </div>
+      <div class="contacts__body">
+        <p>Набір у групи триває протягом року, перше заняття — ознайомче. Запис на пробне заняття та відповіді на запитання — у Керівника клубу.</p>
+        <p class="contacts__note">Контактні дані та адресу клубу опублікуємо, щойно це буде безпечно. Дякуємо за розуміння.</p>
+      </div>
+    </div>
+  </section>
+
 
 
   <script>
@@ -235,35 +281,50 @@
       plane.addEventListener('animationiteration', pick);
 
       // ---- Курсор над небом: модель плавно розвертається до курсора і летить за ним.
-      // 5 с без руху курсора — модель відлітає за екран і вмикається автопілот
-      const HEADER = 84, IDLE = 5000, RAD = Math.PI / 180;
+      // Вмикається лише після ~0,4 с безперервного руху над небом (не над текстом, прогнозом чи меню),
+      // щоб випадковий прохід курсора не зривав модель з маршруту. 5 с без руху — відліт за екран і автопілот.
+      const HEADER = parseFloat(getComputedStyle(hero).paddingTop) || 84;   // висота шапки, з CSS .hero { padding-top }
+      const NOSE = 42;   // кут носа на картинці для transform: offset-rotate «auto 132deg» мінус 90° (CSS-кут дотичної, що дивиться вгору)
+      const IDLE = 5000, HOLD = 400, RAD = Math.PI / 180;
+      const HOVER = window.matchMedia('(hover: hover)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const wrap = a => ((a + 540) % 360) - 180, clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-      let manual = false, leaving = false, lastInput = 0, mouse = null, lastT = 0;
-      let px = 0, py = 0, th = 0, spd = 0, turn = 0, trk = [];
+      let manual = false, leaving = false, engaging = false, lastInput = 0, mouse = null, lastT = 0, moveSince = 0, lastMove = 0;
+      let px = 0, py = 0, th = 0, spd = 0, turn = 0, inView = true;
+      new IntersectionObserver(en => { inView = en[0].isIntersecting; }, { threshold: 0.05 }).observe(hero);
       function centre() {
         const r = plane.getBoundingClientRect(), hr = hero.getBoundingClientRect();
         return { x: r.left - hr.left + r.width / 2, y: r.top - hr.top + r.height / 2 };
       }
-      // напрямок руху на автопілоті: щоб перехоплення було без стрибка
-      (function track() { if (!manual) { trk.push(centre()); if (trk.length > 6) trk.shift(); } requestAnimationFrame(track); })();
       function engage() {
         lastInput = performance.now();
         if (manual) { leaving = false; return; }
-        const c = centre(), a = trk[0], b = trk[trk.length - 1];
-        px = c.x; py = c.y;
-        th = (a && b && (a.x !== b.x || a.y !== b.y)) ? Math.atan2(b.x - a.x, -(b.y - a.y)) / RAD : 0;
-        spd = hero.clientWidth * 0.07; turn = 0; lastT = 0;
-        plane.style.animation = 'none'; plane.style.offsetPath = 'none';
-        manual = true; leaving = false; hero.classList.add('is-manual');
-        requestAnimationFrame(step);
+        if (engaging) return;
+        engaging = true;
+        // напрямок руху на автопілоті беремо з двох кадрів, щоб перехопити без стрибка
+        const c0 = centre();
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          engaging = false;
+          if (manual || !mouse) return;
+          const c1 = centre();
+          px = c1.x; py = c1.y;
+          th = (c1.x !== c0.x || c1.y !== c0.y) ? Math.atan2(c1.x - c0.x, -(c1.y - c0.y)) / RAD : 0;
+          spd = hero.clientWidth * 0.07; turn = 0; lastT = 0;
+          plane.style.animation = 'none'; plane.style.offsetPath = 'none';
+          manual = true; leaving = false; hero.classList.add('is-manual');
+          requestAnimationFrame(step);
+        }));
       }
       function release() {
-        manual = false; leaving = false; mouse = null; hero.classList.remove('is-manual');
-        plane.style.transform = ''; plane.style.offsetPath = ''; trk = [];
+        manual = false; leaving = false; mouse = null; moveSince = 0; hero.classList.remove('is-manual');
+        // на час перезапуску CSS-анімації модель ховаємо, інакше на кадр може блимнути в куті
+        plane.style.visibility = 'hidden';
+        plane.style.transform = ''; plane.style.offsetPath = '';
         pick();
+        requestAnimationFrame(() => { plane.style.visibility = ''; });
       }
       function step(t) {
         if (!manual) return;
+        if (!inView) { release(); return; }
         const dt = lastT ? Math.min(0.05, (t - lastT) / 1000) : 0; lastT = t;
         const W = hero.clientWidth, H = hero.clientHeight, w = plane.offsetWidth, hh = plane.offsetHeight, m = Math.max(w, hh) / 2;
         let tgtTurn = 0, tgtSpd = W * 0.07;
@@ -284,15 +345,23 @@
           if (py < HEADER - m) py = H + m; else if (py > H + m) py = HEADER - m;
           if (t - lastInput > IDLE) leaving = true;
         } else if (px < -w || px > W + w || py < -hh || py > H + hh) { release(); return; }
-        plane.style.transform = 'translate(' + (px - w / 2) + 'px, ' + (py - hh / 2) + 'px) rotate(' + (th + 42) + 'deg)';
+        plane.style.transform = 'translate(' + (px - w / 2) + 'px, ' + (py - hh / 2) + 'px) rotate(' + (th + NOSE) + 'deg)';
         requestAnimationFrame(step);
       }
-      hero.addEventListener('mousemove', e => {
-        if (window.matchMedia('(hover: none)').matches) return;
-        const hr = hero.getBoundingClientRect(); mouse = { x: e.clientX - hr.left, y: e.clientY - hr.top };
-        engage();
-      });
-      hero.addEventListener('mouseleave', () => { mouse = null; lastInput = performance.now(); });
+      if (HOVER) {
+        hero.addEventListener('mousemove', e => {
+          if (e.target.closest('.hero__text, .hero__wind, a, button')) { moveSince = 0; return; }
+          const hr = hero.getBoundingClientRect(), now = performance.now();
+          mouse = { x: e.clientX - hr.left, y: e.clientY - hr.top };
+          if (!manual) {
+            if (!moveSince || now - lastMove > 250) moveSince = now;   // пауза в русі — рахуємо утримання заново
+            lastMove = now;
+            if (now - moveSince < HOLD) return;
+          }
+          engage();
+        });
+        hero.addEventListener('mouseleave', () => { mouse = null; moveSince = 0; lastInput = performance.now(); });
+      }
       window.addEventListener('resize', () => plane.style.setProperty('--fly', JSON.stringify(toPx(ROUTES[current]))));
     })();
   </script>
@@ -302,10 +371,13 @@
       const hud = document.getElementById('hud'), plane = document.querySelector('.hero__plane'), hero = document.querySelector('.hero');
       if (!hud || !plane || !hero) return;
       const $ = id => document.getElementById(id);
-      const HEADER = 84;
-      let W = 0, H = 0, CX = 0, CY = 0, R = 0;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const HEADER = parseFloat(getComputedStyle(hero).paddingTop) || 84;   // висота шапки, з CSS .hero { padding-top }
+      let W = 0, H = 0, CX = 0, CY = 0, R = 0, windKey = '';
       function layout() {
-        W = hero.clientWidth; H = hero.clientHeight - HEADER;
+        // на вузьких/низьких екранах увесь HUD масштабується через viewBox: координати лишаються в «еталонних» px
+        const w = hero.clientWidth, hh = hero.clientHeight - HEADER, SC = Math.max(0.6, Math.min(1, w / 1440, hh / 780));
+        W = Math.round(w / SC); H = Math.round(hh / SC); windKey = '';
         hud.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
         CX = W / 2; CY = Math.round(H * 0.28); R = Math.round(Math.min(W, H) * 0.19);
         $('hud-clip-rect').setAttribute('x', CX - 260); $('hud-clip-rect').setAttribute('y', CY - 105); $('hud-clip-rect').setAttribute('width', 520); $('hud-clip-rect').setAttribute('height', 210);
@@ -316,8 +388,7 @@
           arc += '<line x1="' + (CX + R * Math.cos(rad)).toFixed(1) + '" y1="' + (CY + R * Math.sin(rad)).toFixed(1) + '" x2="' + (CX + (R - len) * Math.cos(rad)).toFixed(1) + '" y2="' + (CY + (R - len) * Math.sin(rad)).toFixed(1) + '"/>';
         });
         const s60 = Math.sin(Math.PI / 3), c60 = Math.cos(Math.PI / 3);
-        $('hud-roll').innerHTML = '<g class="hud-line">' + arc + '<path d="M ' + (CX - R * s60).toFixed(1) + ' ' + (CY - R * c60).toFixed(1) + ' A ' + R + ' ' + R + ' 0 0 1 ' + (CX + R * s60).toFixed(1) + ' ' + (CY - R * c60).toFixed(1) + '"/></g>' +
-          '';
+        $('hud-roll').innerHTML = '<g class="hud-line">' + arc + '<path d="M ' + (CX - R * s60).toFixed(1) + ' ' + (CY - R * c60).toFixed(1) + ' A ' + R + ' ' + R + ' 0 0 1 ' + (CX + R * s60).toFixed(1) + ' ' + (CY - R * c60).toFixed(1) + '"/></g>';
         // літачок-марка
         $('hud-ac').innerHTML = '<path d="M' + (CX - 90) + ' ' + CY + ' h50 M' + (CX + 40) + ' ' + CY + ' h50"/><path d="M' + (CX - 30) + ' ' + CY + ' l30 -12 l30 12"/>';
       }
@@ -371,7 +442,8 @@
       }
       function wind() {
         const w = window.__wind; if (!w) return;
-        const x = 96, y = CY + Math.round(H * 0.17) + 48, dirs = ['Пн','ПнСх','Сх','ПдСх','Пд','ПдЗх','Зх','ПнЗх'];
+        const key = w.speed + '|' + w.dir; if (key === windKey) return; windKey = key;   // дані статичні: не перебудовуємо щокадру
+        const x = 96, y = CY + Math.round(H * 0.17) + 48;
         $('hud-wind').innerHTML = '<g class="hud-line">' +
           '<text x="' + x + '" y="' + y + '" class="hud-txt hud-txt--dim">WIND</text>' +
           '<rect x="' + x + '" y="' + (y + 8) + '" width="74" height="24" class="hud-box"/>' +
@@ -428,17 +500,21 @@
         ladder(); heading();
         tape('hud-spd', spd, 5, 6, 110, -1, 'AIRSPEED', 'км/год'); tape('hud-alt', alt, 5, 6, W - 110, 1, 'ALT', 'м');
         wind(); sticks();
-        requestAnimationFrame(frame);
+        if (inView) requestAnimationFrame(frame); else running = false;
       }
+      let inView = true, running = false;
+      const start = () => { if (!running) { running = true; last = null; hist.length = 0; requestAnimationFrame(frame); } };
+      new IntersectionObserver(en => { inView = en[0].isIntersecting; if (inView) start(); }, { threshold: 0.05 }).observe(hero);
       layout(); window.addEventListener('resize', layout);
-      requestAnimationFrame(frame);
+      start();
     })();
   </script>
   <script>
-    // OSD-повідомлення: заголовок і підзаголовок друкуються посимвольно, чергуються
+    // OSD-повідомлення: h1 і підзаголовок лишаються статичними для пошуку та скрінрідерів,
+    // друкується посимвольно лише візуальна копія в .hero__osd. Пауза, коли вкладка прихована або hero прокручено.
     (function () {
-      const t = document.querySelector('.hero__title'), s = document.querySelector('.hero__subtitle');
-      if (!t || !s) return;
+      const hero = document.querySelector('.hero'), t = document.querySelector('.hero__title .hero__osd'), s = document.querySelector('.hero__subtitle .hero__osd');
+      if (!hero || !t || !s || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const MSGS = [
         ['Авіамодельний клуб «Борисфен»', 'Підкорюй небо'],
         ['Навчання з 12 років', 'Симулятор · майстерня · перші польоти з інструктором'],
@@ -446,7 +522,10 @@
         ['Клубні змагання', 'EPA Combat · пілотаж · планери'],
         ['Керуй моделлю сам', 'Веди курсором над небом · без руху 5 с — автопілот']
       ];
+      let inView = true;
+      new IntersectionObserver(en => { inView = en[0].isIntersecting; }, { threshold: 0.1 }).observe(hero);
       const sleep = ms => new Promise(r => setTimeout(r, ms));
+      const wait = async ms => { await sleep(ms); while (document.hidden || !inView) await sleep(500); };
       async function type(el, text, speed) {
         el.classList.add('is-typing'); el.textContent = '';
         for (const ch of text) { el.textContent += ch; await sleep(speed + Math.random() * speed); }
@@ -455,20 +534,21 @@
       async function fade(el) { el.classList.add('is-hiding'); await sleep(380); el.textContent = ''; el.classList.remove('is-hiding'); }
       (async function loop() {
         let i = 0;
+        await wait(7000);   // перший екран показує статичний текст одразу
         while (true) {
+          await Promise.all([fade(t), fade(s)]);
+          await wait(700);
+          i++;
           const [a, b] = MSGS[i % MSGS.length];
           await type(t, a, 45);
           await sleep(200);
           await type(s, b, 22);
-          await sleep(7000);
-          await Promise.all([fade(t), fade(s)]);
-          await sleep(700);
-          i++;
+          await wait(7000);
         }
       })();
     })();
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/js/glightbox.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/js/glightbox.min.js" integrity="sha384-/+Fc1LD6ksHYZ+2MChiSfjEXBcl4q2axUWhs6/CdnfqY5aLmrPwtysVzyeP0s60b" crossorigin="anonymous"></script>
   <script>
     GLightbox({ selector: '.gallery__item', touchNavigation: true, loop: true, openEffect: 'zoom', closeEffect: 'fade' });
     document.querySelectorAll('.gallery__filter').forEach(btn => btn.addEventListener('click', () => {
@@ -493,7 +573,6 @@
   <script>
     (async function () {
       const $ = id => document.getElementById(id);
-      const dirs = ['Пн','ПнСх','Сх','ПдСх','Пд','ПдЗх','Зх','ПнЗх'];
       // пороги для легкої пінопластової моделі (тренер, Слойка): вітер / пориви, м/с
       const ICON = {
         sun: '<svg class="wi" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><g stroke-width="1.8" stroke-linecap="round" fill="none" stroke="currentColor"><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></g></svg>',
@@ -517,12 +596,11 @@
           const [vt, vc] = verdict(days.wind_speed_10m_max[i], days.wind_gusts_10m_max[i]);
           list.push({ wx: wxIcon(days.weather_code[i]), short: names[wd], label: i === 0 ? 'Сьогодні' : names[wd] + ' ' + dt.getDate(), isWe: wd === 0 || wd === 6,
             v: Math.round(days.wind_speed_10m_max[i]), g: Math.round(days.wind_gusts_10m_max[i]),
-            dir: dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8], deg: days.wind_direction_10m_dominant[i],
+            deg: days.wind_direction_10m_dominant[i],
             rain: days.precipitation_probability_max[i], temp: Math.round(days.temperature_2m_max[i]), vt, vc });
         });
         const cols = ['#47ded9', '#ffffff', '#f5b400'];
         $('wind-weekend').innerHTML = list.slice(0, 3).map((w, i) => {
-          const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
           const rain = w.rain >= 50 ? ' · дощ ' + w.rain + '%' : '';
           const gust = w.g >= 7 ? ' (пориви ' + w.g + ')' : '';
           return '<div class="hero__wind-day is-' + w.vc + (w.isWe ? ' is-weekend' : '') + '"><strong style="color:' + cols[i] + '">' + w.label + '</strong> ' + w.wx + ' <span>' + w.v + ' м/с' + gust + ' · ' + ICON.temp + 'до ' + w.temp + ' °C' + rain + ' ·</span> <b class="hero__wind-verdict">' + w.vt + '</b></div>';

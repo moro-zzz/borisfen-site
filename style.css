@@ -587,9 +587,42 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 .hero__hud .hud-txt--dim { opacity: 0.7; letter-spacing: 0.15em; font-size: 10px; }
 @media (max-width: 1100px) { .hero__hud { display: none; } }
 
-/* ---------- OSD-повідомлення ---------- */
-.hero__title, .hero__subtitle { min-height: 1.2em; transition: opacity 0.35s; }
-.hero__title:empty::after, .hero__subtitle:empty::after { content: "\00a0"; }
-.hero__title.is-typing::after, .hero__subtitle.is-typing::after { content: "▌"; margin-left: 2px; color: var(--accent); animation: osd-blink 0.7s steps(1) infinite; }
-.hero__title.is-hiding, .hero__subtitle.is-hiding { opacity: 0; }
+/* ---------- OSD-повідомлення (друкується лише візуальна копія .hero__osd; h1 статичний) ---------- */
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.hero__title, .hero__subtitle { min-height: 1.2em; }
+.hero__osd { transition: opacity 0.35s; }
+.hero__osd:empty::after { content: "\00a0"; }
+.hero__osd.is-typing::after { content: "▌"; margin-left: 2px; color: var(--accent); animation: osd-blink 0.7s steps(1) infinite; }
+.hero__osd.is-hiding { opacity: 0; }
 @keyframes osd-blink { 50% { opacity: 0; } }
+
+/* ---------- Про клуб, Контакти ---------- */
+.about { padding: 20px 0 90px; background: #fff; }
+.about__grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 48px; align-items: start; }
+.about__text p { margin: 0 0 16px; font-size: 17px; line-height: 1.7; color: #333; }
+.about__facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.about__facts li { padding: 22px 18px; border-radius: 14px; background: #f3f8f8; text-align: center; }
+.about__facts strong { display: block; font-size: 26px; font-weight: 500; color: var(--accent-dark, #1f9c97); }
+.about__facts span { display: block; margin-top: 4px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #666; }
+.contacts { padding: 0 0 100px; background: #fff; }
+.contacts__body { max-width: 720px; margin: 0 auto; text-align: center; }
+.contacts__body p { margin: 0 0 14px; font-size: 17px; line-height: 1.7; color: #333; }
+.contacts__note { font-size: 15px; color: #777; }
+@media (max-width: 820px) {
+  .about__grid { grid-template-columns: 1fr; gap: 28px; }
+  .about { padding-bottom: 60px; }
+  .contacts { padding-bottom: 70px; }
+}
+
+/* ---------- Менше руху за системним налаштуванням ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero__plane { animation: none; offset-path: none; left: auto; right: 6%; top: 24%; transform: rotate(-24deg); }
+  .hero__hud { display: none; }
+  .hero__osd { transition: none; }
+  .hero__osd.is-typing::after { animation: none; }
+}
+
+/* низькі екрани (ноутбук 1366×620): заголовок вище, щоб не наїжджав на прогноз */
+@media (min-width: 821px) and (max-height: 700px) {
+  .hero__text { transform: translateY(30px); }
+}

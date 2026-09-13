@@ -51,10 +51,22 @@ page = f'''<!DOCTYPE html>
   <title>Наші моделі — Борисфен</title>
   <meta name="description" content="Моделі авіамодельного клубу «Борисфен»: тренери, пілотажні, копії. Характеристики, комплектація, креслення.">
   <link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="uk_UA">
+  <meta property="og:site_name" content="Авіамодельний клуб «Борисфен»">
+  <meta property="og:title" content="Наші моделі — Борисфен">
+  <meta property="og:description" content="Моделі авіамодельного клубу «Борисфен»: тренери, пілотажні, копії. Характеристики, комплектація, креслення.">
+  <meta property="og:url" content="https://borisfen-site.vercel.app/modeli.html">
+  <meta property="og:image" content="https://borisfen-site.vercel.app/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css" integrity="sha384-GPAzSuZc0kFvdIev6wm9zg8gnafE8tLso7rsAYQfc9hAdWCpOcpcNI5W9lWkYcsd" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css?v=202609132153">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -97,7 +109,7 @@ page = f'''<!DOCTYPE html>
     </div>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/js/glightbox.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/js/glightbox.min.js" integrity="sha384-/+Fc1LD6ksHYZ+2MChiSfjEXBcl4q2axUWhs6/CdnfqY5aLmrPwtysVzyeP0s60b" crossorigin="anonymous"></script>
   <script>
     GLightbox({{ selector: '.glightbox', touchNavigation: true, loop: true }});
     (function () {{
