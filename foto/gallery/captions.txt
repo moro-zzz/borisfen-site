@@ -1,8 +1,0 @@
-polyoty/dvomotorna-model.jpg | Двомоторна модель перед стартом на польовій смузі
-polyoty/trener-i-pult.jpg | Тренувальна модель і апаратура перед польотом
-polyoty/thunderbolt.jpg | Пілотажна модель на низькому проході
-polyoty/kopii-vynyshchuvachiv.jpg | Моделі-копії перед груповим польотом
-polyoty/model-u-nebi.jpg | Пілотажна модель у польоті
-polyoty/plyazh.jpg | Тренувальна модель перед польотом
-maysternya/vysokoplan.jpg | Тренувальний високоплан після збирання
-maysternya/extra-300.jpg | Пілотажна модель класу Extra
