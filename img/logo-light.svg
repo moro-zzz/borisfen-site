@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 150" role="img" aria-label="Борисфен, авіамодельний клуб, Київ">
+<defs>
+<g id="plane">
+  <path d="M 0,-95 C 9,-101 23,-98.5 27.5,-96 C 28.3,-95.5 28.3,-94.5 27.5,-94 C 23,-91.5 9,-89 0,-95 Z M 0,-95 C -9,-101 -23,-98.5 -27.5,-96 C -28.3,-95.5 -28.3,-94.5 -27.5,-94 C -23,-91.5 -9,-89 0,-95 Z"/>
+  <path d="M 0,-100 C 3.5,-99.5 5,-95 5,-90 L -5,-90 C -5,-95 -3.5,-99.5 0,-100 Z"/>
+  <path d="M -6,-90 L 6,-90 C 8.4,-90 9.8,-88.5 9.8,-85 C 9.9,-70 10.5,-50 10.5,-30 L 10.5,-15 C 10.5,15 6,60 3.5,94 C 3.5,96.5 -3.5,96.5 -3.5,94 C -6,60 -10.5,15 -10.5,-15 L -10.5,-30 C -10.5,-50 -9.9,-70 -9.8,-85 C -9.8,-88.5 -8.4,-90 -6,-90 Z"/>
+  <path d="M 10.5,-46 L 103,-24.2 C 109.5,-22.7 112.4,-16 112.4,-8 C 112.4,2 111.5,12 107,12 L -107,12 C -111.5,12 -112.4,2 -112.4,-8 C -112.4,-16 -109.5,-22.7 -103,-24.2 L -10.5,-46 Z"/>
+  <path d="M 5.5,67 L 36,75 C 39.5,75.9 42,79 42,84 C 42,90 41,95 38,95 L -38,95 C -41,95 -42,90 -42,84 C -42,79 -39.5,75.9 -36,75 L -5.5,67 Z"/>
+  <path d="M -1.2,28 L 1.2,28 L 2,100 L -2,100 Z"/>
+</g>
+<g id="canopy">
+  <path d="M 0,-38 C 5,-38 7.5,-31 7.5,-22 C 7.5,-9 4,2.5 0,4 C -4,2.5 -7.5,-9 -7.5,-22 C -7.5,-31 -5,-38 0,-38 Z"/>
+</g>
+</defs>
+<path d="M20 118 C50 118 60 96 88 96 C116 96 126 118 154 118 C170 118 178 110 186 100" fill="none" stroke="#2ec4bf" stroke-width="6" stroke-linecap="round"/>
+<path d="M20 132 C50 132 60 112 88 112 C116 112 126 132 154 132" fill="none" stroke="#1d5b8a" stroke-width="5" stroke-linecap="round"/>
+<g transform="translate(112 50) rotate(35) scale(0.42)" color="#0b0b0b"><use href="#plane" fill="#0b0b0b"/><use href="#canopy" fill="#ffffff" opacity="0.55"/></g>
+<text x="200" y="82" font-family="Ubuntu, 'Segoe UI', Arial, sans-serif" font-weight="300" font-size="44" letter-spacing="3" fill="#0b0b0b">БОРИС<tspan fill="#1d5b8a">ФЕН</tspan></text>
+<text x="203" y="112" font-family="Ubuntu, 'Segoe UI', Arial, sans-serif" font-weight="400" font-size="12" letter-spacing="5" fill="#777">АВІАМОДЕЛЬНИЙ КЛУБ · КИЇВ</text>
+</svg>

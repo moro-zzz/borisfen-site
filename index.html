@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Борисфен — авіамодельний клуб</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#" class="logo" aria-label="Борисфен, на головну">
+        <svg class="logo__mark" viewBox="0 0 200 150" aria-hidden="true">
+          <defs>
+            <g id="plane">
+              <path d="M 0,-95 C 9,-101 23,-98.5 27.5,-96 C 28.3,-95.5 28.3,-94.5 27.5,-94 C 23,-91.5 9,-89 0,-95 Z M 0,-95 C -9,-101 -23,-98.5 -27.5,-96 C -28.3,-95.5 -28.3,-94.5 -27.5,-94 C -23,-91.5 -9,-89 0,-95 Z"/>
+              <path d="M 0,-100 C 3.5,-99.5 5,-95 5,-90 L -5,-90 C -5,-95 -3.5,-99.5 0,-100 Z"/>
+              <path d="M -6,-90 L 6,-90 C 8.4,-90 9.8,-88.5 9.8,-85 C 9.9,-70 10.5,-50 10.5,-30 L 10.5,-15 C 10.5,15 6,60 3.5,94 C 3.5,96.5 -3.5,96.5 -3.5,94 C -6,60 -10.5,15 -10.5,-15 L -10.5,-30 C -10.5,-50 -9.9,-70 -9.8,-85 C -9.8,-88.5 -8.4,-90 -6,-90 Z"/>
+              <path d="M 10.5,-46 L 103,-24.2 C 109.5,-22.7 112.4,-16 112.4,-8 C 112.4,2 111.5,12 107,12 L -107,12 C -111.5,12 -112.4,2 -112.4,-8 C -112.4,-16 -109.5,-22.7 -103,-24.2 L -10.5,-46 Z"/>
+              <path d="M 5.5,67 L 36,75 C 39.5,75.9 42,79 42,84 C 42,90 41,95 38,95 L -38,95 C -41,95 -42,90 -42,84 C -42,79 -39.5,75.9 -36,75 L -5.5,67 Z"/>
+              <path d="M -1.2,28 L 1.2,28 L 2,100 L -2,100 Z"/>
+            </g>
+            <g id="canopy">
+              <path d="M 0,-38 C 5,-38 7.5,-31 7.5,-22 C 7.5,-9 4,2.5 0,4 C -4,2.5 -7.5,-9 -7.5,-22 C -7.5,-31 -5,-38 0,-38 Z"/>
+            </g>
+          </defs>
+          <path d="M20 118 C50 118 60 96 88 96 C116 96 126 118 154 118 C170 118 178 110 186 100" fill="none" stroke="#47ded9" stroke-width="6" stroke-linecap="round"/>
+          <path d="M20 132 C50 132 60 112 88 112 C116 112 126 132 154 132" fill="none" stroke="#1d5b8a" stroke-width="5" stroke-linecap="round"/>
+          <g transform="translate(112 50) rotate(35) scale(0.42)" color="#ffffff"><use href="#plane" fill="#ffffff"/><use href="#canopy" fill="#0b0b0b" opacity="0.55"/></g>
+        </svg>
+        <span class="logo__text">БОРИС<span>ФЕН</span></span>
+      </a>
+
+      <nav class="nav" aria-label="Головне меню">
+        <a href="#" class="nav__link is-active">Головна</a>
+        <a href="#about" class="nav__link">Про клуб</a>
+        <a href="#news" class="nav__link">Новини</a>
+        <a href="#services" class="nav__link">Напрями</a>
+        <a href="#gallery" class="nav__link">Галерея</a>
+        <a href="#contacts" class="nav__link">Контакти</a>
+      </nav>
+
+      <button class="burger" aria-label="Відкрити меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero__sky" aria-hidden="true"></div>
+    <div class="hero__clouds" aria-hidden="true"></div>
+
+    <!-- Силует моделі. Тимчасово замість фото: замініть на img/hero.jpg -->
+    <svg class="hero__plane" viewBox="-135 -135 270 270" aria-hidden="true">
+      <g transform="rotate(28)"><use href="#plane" fill="#ffffff"/><use href="#canopy" fill="#1d5b8a" opacity="0.45"/></g>
+    </svg>
+
+    <div class="container hero__content">
+      <button class="hero__arrow hero__arrow--prev" aria-label="Попередній слайд">&#8249;</button>
+      <div class="hero__text">
+        <h1 class="hero__title">Підкорюй небо</h1>
+        <p class="hero__subtitle">Авіамодельний клуб «Борисфен»</p>
+        <a href="#about" class="btn">Дізнатися більше</a>
+      </div>
+      <button class="hero__arrow hero__arrow--next" aria-label="Наступний слайд">&#8250;</button>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <div class="container">
+      <div class="services__grid">
+        <article class="service">
+          <h3 class="service__title">Навчання</h3>
+          <p class="service__tagline">Від першого польоту</p>
+          <svg class="service__icon" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M6 30 L24 12 L42 30"/><path d="M12 30 v10 h24 v-10"/><path d="M20 40 v-8 h8 v8"/>
+          </svg>
+          <p class="service__text">Курс для новачків: теорія польоту, симулятор, перші зльоти з інструктором на тренувальній моделі.</p>
+          <a href="#" class="btn btn--small">Детальніше</a>
+        </article>
+
+        <article class="service">
+          <h3 class="service__title">Моделі</h3>
+          <p class="service__tagline">Майстерня клубу</p>
+          <svg class="service__icon" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M4 26 L44 22"/><path d="M20 24 L28 8 L32 9 L28 24"/><path d="M20 25 L28 40 L32 39 L28 25"/><path d="M40 22 L44 14 L46 15 L44 23"/>
+          </svg>
+          <p class="service__text">Будуємо планери, тренери та пілотажні моделі з бальзи, пінопласту й композитів. Допомагаємо з ремонтом.</p>
+          <a href="#" class="btn btn--small">Детальніше</a>
+        </article>
+
+        <article class="service">
+          <h3 class="service__title">Польоти</h3>
+          <p class="service__tagline">Власне льотне поле</p>
+          <svg class="service__icon" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M24 4 C14 4 8 11 8 20 C8 32 24 44 24 44 C24 44 40 32 40 20 C40 11 34 4 24 4 Z"/><circle cx="24" cy="20" r="6"/>
+          </svg>
+          <p class="service__text">Поле за містом з рівною смугою та зоною безпеки. Польотні дні щосуботи, для членів клубу безкоштовно.</p>
+          <a href="#" class="btn btn--small">Детальніше</a>
+        </article>
+
+        <article class="service">
+          <h3 class="service__title">Змагання</h3>
+          <p class="service__tagline">Кубки та фестивалі</p>
+          <svg class="service__icon" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M14 6 h20 v12 a10 10 0 0 1 -20 0 z"/><path d="M14 10 H8 v4 a6 6 0 0 0 6 6"/><path d="M34 10 h6 v4 a6 6 0 0 1 -6 6"/><path d="M24 28 v8"/><path d="M16 42 h16"/><path d="M20 36 h8 v6 h-8 z"/>
+          </svg>
+          <p class="service__text">Готуємо команду до пілотажних і планерних змагань. Двічі на рік проводимо відкритий фестиваль моделей.</p>
+          <a href="#" class="btn btn--small">Детальніше</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
