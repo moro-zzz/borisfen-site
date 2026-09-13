@@ -256,7 +256,7 @@
             '<line x1="' + r(bx) + '" y1="' + r(by) + '" x2="' + r(ex) + '" y2="' + r(ey) + '" stroke="' + col + '" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="4 3"/>' +
             '<polygon points="0,-7 -4,2 4,2" transform="translate(' + r(ex) + ' ' + r(ey) + ') rotate(' + r(deg) + ')" fill="' + col + '"/>' +
             '<g transform="translate(' + r(sx) + ' ' + r(sy) + ') rotate(' + r(deg) + ') scale(0.085)"><use href="#plane" fill="' + col + '"/></g>' +
-            '<text x="' + r(sx - dy * 12) + '" y="' + r(sy + dx * 12 + 3) + '" text-anchor="middle" font-size="8" font-weight="500" fill="' + col + '">' + short + '</text></g>';
+            '<text x="' + r(sx - dx * 22) + '" y="' + r(sy - dy * 22 + 3) + '" text-anchor="middle" font-size="8" font-weight="500" fill="' + col + '">' + short + '</text></g>';
         }).join('');
       } catch (e) {
         $('wind-weekend').textContent = '';
