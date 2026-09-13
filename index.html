@@ -92,6 +92,7 @@
       <g id="hud-alt"></g>
       <g id="hud-wind"></g>
       <g id="hud-alert"></g>
+      <g id="hud-clock"></g>
       <g id="hud-sticks"></g>
     </svg>
     <div class="hero__wind">
@@ -458,6 +459,20 @@
           '<g transform="translate(' + (x + 104) + ' ' + (y + 20) + ')"><circle r="16"/><line x1="0" y1="-16" x2="0" y2="-12"/><line x1="0" y1="12" x2="0" y2="16"/><line x1="-16" y1="0" x2="-12" y2="0"/><line x1="12" y1="0" x2="16" y2="0"/>' +
           '<g transform="rotate(' + (w.dir + 180) + ')"><line x1="0" y1="9" x2="0" y2="-5"/><polygon points="0,-11 -4,-4 4,-4" class="hud-red"/></g></g></g>';
       }
+      let clockKey = '';
+      function clock() {
+        const c = window.__clock || { offset: 0, rtt: null, src: 'LOCAL' };
+        const now = new Date(Date.now() + c.offset);
+        const hms = now.toLocaleTimeString('uk-UA', { timeZone: 'Europe/Kyiv', hour12: false });
+        const key = hms + '|' + c.src + '|' + W; if (key === clockKey) return; clockKey = key;   // оновлення раз на секунду
+        const x = W - 96, y = 34;
+        const note = c.src === 'NTP' ? 'NTP ±' + Math.max(1, Math.round(c.rtt / 2)) + ' мс' : 'годинник пристрою';
+        $('hud-clock').innerHTML = '<g class="hud-line">' +
+          '<text x="' + x + '" y="' + (y - 15) + '" class="hud-txt hud-txt--dim hud-txt--r">TIME · KYIV</text>' +
+          '<rect x="' + (x - 82) + '" y="' + (y - 8) + '" width="82" height="24" class="hud-box"/>' +
+          '<text x="' + (x - 41) + '" y="' + (y + 9) + '" class="hud-txt hud-txt--c hud-txt--b">' + hms + '</text>' +
+          '<text x="' + x + '" y="' + (y + 30) + '" class="hud-txt hud-txt--dim hud-txt--r">' + note + '</text></g>';
+      }
       let alertKey = '';
       function alert() {
         const a = window.__alert; if (!a) return;
@@ -522,7 +537,7 @@
         last = { t: t, x: cx, y: cy };
         ladder(); heading();
         tape('hud-spd', spd, 5, 6, 110, -1, 'AIRSPEED', 'км/год'); tape('hud-alt', alt, 5, 6, W - 110, 1, 'ALT', 'м');
-        wind(); alert(); sticks();
+        wind(); alert(); clock(); sticks();
         if (inView) requestAnimationFrame(frame); else running = false;
       }
       let inView = true, running = false;
@@ -591,6 +606,27 @@
       burger.addEventListener('click', () => toggle(!nav.classList.contains('is-open')));
       nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
       document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
+    })();
+  </script>
+  <script>
+    // Точний час: зсув годинника пристрою відносно сервера, як у NTP (середина запиту = час сервера)
+    (function () {
+      async function sync() {
+        let best = null;
+        try {
+          for (let i = 0; i < 4; i++) {
+            const a = Date.now();
+            const r = await fetch('/api/time?n=' + i, { cache: 'no-store' });
+            if (!r.ok) throw new Error(r.status);
+            const j = await r.json(), b = Date.now(), rtt = b - a, offset = j.t - (a + b) / 2;
+            if (!best || rtt < best.rtt) best = { offset, rtt };
+          }
+          window.__clock = { offset: best.offset, rtt: best.rtt, src: 'NTP' };
+        } catch (e) {
+          if (!window.__clock) window.__clock = { offset: 0, rtt: null, src: 'LOCAL' };
+        }
+      }
+      sync(); setInterval(sync, 10 * 60 * 1000);
     })();
   </script>
   <script>
