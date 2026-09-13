@@ -290,6 +290,7 @@
       const wrap = a => ((a + 540) % 360) - 180, clamp = (v, a, b) => Math.max(a, Math.min(b, v));
       let manual = false, leaving = false, engaging = false, lastInput = 0, mouse = null, lastT = 0, moveSince = 0, lastMove = 0;
       let px = 0, py = 0, th = 0, spd = 0, turn = 0, inView = true;
+      const ctl = { ail: 0, ele: 0 };   // правий стік HUD у ручному режимі: вектор від моделі до курсора, плавно
       new IntersectionObserver(en => { inView = en[0].isIntersecting; }, { threshold: 0.05 }).observe(hero);
       function centre() {
         const r = plane.getBoundingClientRect(), hr = hero.getBoundingClientRect();
@@ -315,7 +316,7 @@
         }));
       }
       function release() {
-        manual = false; leaving = false; mouse = null; moveSince = 0; hero.classList.remove('is-manual');
+        manual = false; leaving = false; mouse = null; moveSince = 0; hero.classList.remove('is-manual'); window.__ctl = null; ctl.ail = ctl.ele = 0;
         // на час перезапуску CSS-анімації модель ховаємо, інакше на кадр може блимнути в куті
         plane.style.visibility = 'hidden';
         plane.style.transform = ''; plane.style.offsetPath = '';
@@ -336,6 +337,11 @@
           const want = Math.atan2(mouse.x - px, -(mouse.y - py)) / RAD, dist = Math.hypot(mouse.x - px, mouse.y - py);
           tgtTurn = dist < w * 0.35 ? 0 : clamp(wrap(want - th) / 35, -1, 1);
         }
+        // стік AIL/ELE повторює положення курсора відносно моделі (праворуч/вгору = +), з інерцією
+        let sx = 0, sy = 0;
+        if (!leaving && mouse) { const dx = mouse.x - px, dy = py - mouse.y, d = Math.hypot(dx, dy) || 1, mag = Math.min(1, d / (W * 0.25)); sx = dx / d * mag; sy = dy / d * mag; }
+        ctl.ail += (sx - ctl.ail) * Math.min(1, dt * 6); ctl.ele += (sy - ctl.ele) * Math.min(1, dt * 6);
+        window.__ctl = ctl;
         turn += (tgtTurn - turn) * Math.min(1, dt * 5);
         spd += (tgtSpd - spd) * Math.min(1, dt * 2);
         th += turn * 100 * dt;
@@ -458,7 +464,8 @@
           '<circle cx="' + (x + S / 2 + px * (S / 2 - 6)).toFixed(1) + '" cy="' + (y0 + S / 2 - py * (S / 2 - 6)).toFixed(1) + '" r="4.5" class="hud-red"/>' +
           '<text x="' + (x + S / 2) + '" y="' + (y0 + S + 14) + '" class="hud-txt hud-txt--c hud-txt--dim">' + label + '</text>';
         const rud = Math.max(-1, Math.min(1, turn)), thr = Math.max(-1, Math.min(1, throttle * 2 - 1));
-        const ail = Math.max(-1, Math.min(1, roll / 90)), ele = Math.max(-1, Math.min(1, pitch / 25));
+        const c = window.__ctl;   // ручний режим: стік повторює курсор
+        const ail = c ? c.ail : Math.max(-1, Math.min(1, roll / 90)), ele = c ? c.ele : Math.max(-1, Math.min(1, pitch / 25));
         $('hud-sticks').innerHTML = '<g class="hud-line">' + box(xl, rud, thr, 'THR / RUD') + box(xr, ail, ele, 'AIL / ELE') + '</g>';
       }
       let turn = 0, throttle = 0.6, snap = 0, hist = [];
