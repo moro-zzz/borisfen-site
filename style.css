@@ -148,21 +148,17 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   height: auto;
   filter: drop-shadow(0 24px 34px rgba(10, 40, 70, 0.35));
   pointer-events: none;
-  will-change: transform;
+  will-change: transform, offset-distance;
+  /* рух по кривій; ніс (у картинці дивиться вгору-вліво, ≈ -132°) вирівнюється по дотичній */
+  offset-path: path(var(--fly, "M 1600 700 C 1300 520 1000 300 700 170 S 250 90 60 150 S -300 230 -600 200"));
+  offset-rotate: auto 132deg;
+  offset-anchor: 50% 50%;
   animation: fly 22s linear infinite;
 }
 
-/* траєкторія: зʼявляється справа знизу, дуга над заголовком, відліт уліво */
 @keyframes fly {
-  0%   { transform: translate(108vw, 70vh) rotate(-8deg); }
-  12%  { transform: translate(86vw, 54vh) rotate(-12deg); }
-  24%  { transform: translate(68vw, 36vh) rotate(-17deg); }
-  36%  { transform: translate(53vw, 20vh) rotate(-23deg); }
-  48%  { transform: translate(40vw, 12vh) rotate(-30deg); }
-  60%  { transform: translate(27vw, 10vh) rotate(-38deg); }
-  72%  { transform: translate(14vw, 11vh) rotate(-42deg); }
-  84%  { transform: translate(0vw, 12vh) rotate(-46deg); }
-  100% { transform: translate(-40vw, 16vh) rotate(-50deg); }
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
 }
 
 .hero__content {

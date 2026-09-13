@@ -117,5 +117,21 @@
     </div>
   </section>
 
+  <script>
+    // Траєкторія польоту моделі: перераховується від розміру hero
+    (function () {
+      const hero = document.querySelector('.hero');
+      const plane = document.querySelector('.hero__plane');
+      if (!hero || !plane) return;
+      function setPath() {
+        const W = hero.clientWidth, H = hero.clientHeight;
+        const p = (x, y) => `${(x * W).toFixed(0)} ${(y * H).toFixed(0)}`;
+        const d = `M ${p(1.12, 0.78)} C ${p(0.92, 0.60)} ${p(0.74, 0.36)} ${p(0.52, 0.26)} S ${p(0.22, 0.20)} ${p(0.06, 0.24)} S ${p(-0.22, 0.32)} ${p(-0.40, 0.30)}`;
+        plane.style.setProperty('--fly', JSON.stringify(d));
+      }
+      setPath();
+      window.addEventListener('resize', setPath);
+    })();
+  </script>
 </body>
 </html>
