@@ -6,6 +6,9 @@ import json, re, io, sys, html, os
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 models = json.load(open('tools/models.json', encoding='utf-8'))
+# ті, що літають, першими; далі «у майстерні», потім проєкти
+ORDER = {'літає': 0, 'літають': 0, 'у майстерні': 1, 'проєкт у роботі': 2}
+models.sort(key=lambda m: ORDER.get(m.get('status', '').lower(), 3))
 idx = open('index.html', encoding='utf-8').read()
 LOGO = re.search(r'<svg class="logo__mark".*?</svg>', idx, re.S).group(0)
 NAV = re.search(r'<nav class="nav".*?</nav>', idx, re.S).group(0)
