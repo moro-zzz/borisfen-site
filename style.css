@@ -149,10 +149,10 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 .hero__plane {
   position: absolute;
-  right: 10%;
-  bottom: 14%;
-  width: 400px;
-  height: 400px;
+  right: 9%;
+  bottom: 5%;
+  width: 380px;
+  height: 380px;
   opacity: 0.92;
   filter: drop-shadow(0 24px 30px rgba(10, 40, 70, 0.35));
   animation: float 6s ease-in-out infinite;
@@ -165,10 +165,10 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 .hero__content {
   position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: center;
   padding-bottom: 120px;
 }
 
@@ -193,14 +193,21 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 .hero__text .btn { margin-top: 34px; }
 
 .hero__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  padding: 8px 14px;
   font-size: 56px;
   line-height: 1;
   font-weight: 300;
   opacity: 0.8;
-  transition: opacity 0.25s, transform 0.25s;
+  transform: translateY(-50%);
+  transition: opacity 0.25s;
 }
 
-.hero__arrow:hover { opacity: 1; transform: scale(1.1); }
+.hero__arrow--prev { left: 32px; }
+.hero__arrow--next { right: 32px; }
+.hero__arrow:hover { opacity: 1; }
 
 /* ---------- Картки напрямів ---------- */
 .services {
@@ -263,7 +270,9 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 /* ---------- Адаптив ---------- */
 @media (max-width: 1100px) {
-  .hero__plane { width: 320px; height: 280px; right: 4%; }
+  .hero__plane { width: 300px; height: 300px; right: 4%; bottom: 4%; }
+  .hero__arrow--prev { left: 12px; }
+  .hero__arrow--next { right: 12px; }
   .hero__title { font-size: 56px; }
   .services__grid { grid-template-columns: repeat(2, 1fr); row-gap: 48px; }
   .service:nth-child(2) { border-right: 0; }
@@ -273,7 +282,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   .nav { display: none; }
   .burger { display: flex; }
   .hero__arrow { display: none; }
-  .hero__plane { width: 220px; height: 192px; bottom: 20%; right: 0; }
+  .hero__plane { width: 220px; height: 220px; bottom: 16%; right: 0; }
   .hero__title { font-size: 44px; }
   .hero__subtitle { letter-spacing: 0.3em; }
 }
