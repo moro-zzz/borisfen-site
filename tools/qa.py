@@ -10,7 +10,8 @@ from urllib.error import HTTPError, URLError
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else 'https://borisfen-site.vercel.app').rstrip('/') + '/'
-PAGES = ['', 'navchannya', 'batkam']  # cleanUrls
+LOCAL = 'localhost' in BASE or '127.0.0.1' in BASE
+PAGES = ['', 'navchannya.html', 'batkam.html'] if LOCAL else ['', 'navchannya', 'batkam']  # cleanUrls лише на Vercel
 UA = {'User-Agent': 'BorysfenQA/1.0'}
 problems, checked = [], 0
 
@@ -73,14 +74,14 @@ for p in PAGES:
         else: ok(f'галерея: {n} фото')
         if 'hero__plane' not in doc: fail('немає моделі в hero')
         if 'GLightbox(' not in doc: fail('лайтбокс не ініціалізовано')
-    if p == 'navchannya':
+    if p.startswith('navchannya'):
         if 'navchalna-programa-borysfen.pdf' not in doc: fail('немає посилання на PDF програми')
         if doc.count('class="tabs__panel') < 3: fail('менше 3 рівнів навчання')
         m = re.findall(r'<tfoot><tr><td>Разом</td><td>(\d+)</td><td>(\d+)</td><td>(\d+)</td>', doc)
         for tot, th, pr in m:
             if int(th) + int(pr) != int(tot): fail(f'у плані теорія+практика ≠ усього ({th}+{pr}≠{tot})')
         ok(f'рівнів: {doc.count("class=\"tabs__panel")}, суми годин у нормі')
-    if p == 'batkam':
+    if p.startswith('batkam'):
         for must in ['Що відбувається під час повітряної тривоги', 'Як підтримати дитину вдома']:
             if must not in doc: fail(f'на сторінці «Батькам» немає розділу «{must}»')
         for mustnot in ['Куди звернутися по допомогу', 'Джерела']:
@@ -98,8 +99,8 @@ st, ct, body = get(BASE + 'files/navchalna-programa-borysfen.pdf')
 if st != 200 or 'pdf' not in ct: fail(f'PDF програми: HTTP {st} {ct}')
 elif len(body) < 50_000: fail('PDF програми підозріло малий')
 else: ok(f'PDF програми: {len(body)//1024} KB')
-# те, чого на сайті бути не має
-for secret in ['docs/00-параметри-клубу.md', 'foto/claude.jpg', '.vercel/project.json']:
+# те, чого на сайті бути не має (лише на продакшні; локальний http.server роздає все)
+for secret in ([] if LOCAL else ['docs/00-параметри-клубу.md', 'foto/claude.jpg', '.vercel/project.json']):
     st, _, _ = get(BASE + secret, 'HEAD')
     if st == 200: fail(f'на сайт потрапив внутрішній файл: {secret}')
 ok('внутрішні файли (docs, foto, .vercel) недоступні')
