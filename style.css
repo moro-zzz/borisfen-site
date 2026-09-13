@@ -123,7 +123,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   position: relative;
   min-height: 100vh;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   overflow: hidden;
   padding-top: 84px;
   color: var(--white);
@@ -133,8 +133,8 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(8, 24, 40, 0.55) 0%, rgba(8, 24, 40, 0.25) 45%, rgba(8, 24, 40, 0.45) 100%),
-    url("img/hero.jpg") center bottom / cover no-repeat;
+    linear-gradient(180deg, rgba(8, 24, 40, 0.35) 0%, rgba(8, 24, 40, 0.15) 40%, rgba(8, 24, 40, 0.45) 100%),
+    url("img/hero.jpg") center top / cover no-repeat;
 }
 
 .hero__clouds { display: none; }
@@ -162,7 +162,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 110px 0 0;
+  padding: 60px 0 80px;
 }
 
 .hero__text { text-align: center; flex: 1; }
@@ -187,7 +187,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 .hero__arrow {
   position: absolute;
-  top: 36%;
+  top: 50%;
   z-index: 2;
   padding: 8px 14px;
   font-size: 56px;
