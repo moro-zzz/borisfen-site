@@ -144,7 +144,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   position: absolute;
   left: 0;
   top: 0;
-  width: clamp(300px, 30vw, 600px);
+  width: clamp(260px, 25vw, 520px);
   height: auto;
   filter: drop-shadow(0 24px 34px rgba(10, 40, 70, 0.35));
   pointer-events: none;
@@ -154,15 +154,15 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 /* траєкторія: зʼявляється справа знизу, дуга над заголовком, відліт уліво */
 @keyframes fly {
-  0%   { transform: translate(108vw, 72vh) rotate(-8deg); }
-  12%  { transform: translate(84vw, 56vh) rotate(-12deg); }
-  24%  { transform: translate(66vw, 36vh) rotate(-17deg); }
-  36%  { transform: translate(52vw, 14vh) rotate(-23deg); }
-  48%  { transform: translate(40vw, -2vh) rotate(-30deg); }
-  60%  { transform: translate(28vw, -8vh) rotate(-38deg); }
-  72%  { transform: translate(16vw, -2vh) rotate(-46deg); }
-  84%  { transform: translate(4vw, 14vh) rotate(-53deg); }
-  100% { transform: translate(-40vw, 44vh) rotate(-58deg); }
+  0%   { transform: translate(108vw, 70vh) rotate(-8deg); }
+  12%  { transform: translate(86vw, 54vh) rotate(-12deg); }
+  24%  { transform: translate(68vw, 36vh) rotate(-17deg); }
+  36%  { transform: translate(53vw, 20vh) rotate(-23deg); }
+  48%  { transform: translate(40vw, 12vh) rotate(-30deg); }
+  60%  { transform: translate(27vw, 10vh) rotate(-38deg); }
+  72%  { transform: translate(15vw, 13vh) rotate(-46deg); }
+  84%  { transform: translate(3vw, 22vh) rotate(-53deg); }
+  100% { transform: translate(-40vw, 46vh) rotate(-58deg); }
 }
 
 .hero__content {
