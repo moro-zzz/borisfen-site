@@ -243,7 +243,7 @@
         $('wind-days').innerHTML = days.time.map((t, i) => {
           const dt = new Date(t + 'T12:00:00'), wd = dt.getDay(), isWe = wd === 0 || wd === 6;
           const [vt, vc] = verdict(days.wind_speed_10m_max[i], days.wind_gusts_10m_max[i]);
-          if (isWe) weekend.push({ name: wd === 6 ? 'Субота' : 'Неділя', date: dt.getDate(), v: Math.round(days.wind_speed_10m_max[i]), g: Math.round(days.wind_gusts_10m_max[i]), rain: days.precipitation_probability_max[i], vt, vc });
+          if (isWe) weekend.push({ name: wd === 6 ? 'Субота' : 'Неділя', date: dt.getDate(), v: Math.round(days.wind_speed_10m_max[i]), g: Math.round(days.wind_gusts_10m_max[i]), dir: dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8], deg: days.wind_direction_10m_dominant[i], rain: days.precipitation_probability_max[i], vt, vc });
           return '<div class="wind__day is-' + vc + (isWe ? ' is-weekend' : '') + '"><div class="wind__day-name">' + (i === 0 ? 'Сьогодні' : names[wd] + ' ' + dt.getDate()) + (isWe ? ' <span class="wind__badge">польотний день</span>' : '') + '</div>' +
             '<div class="wind__day-speed">' + Math.round(days.wind_speed_10m_max[i]) + ' <small>м/с</small></div>' +
             '<div class="wind__day-meta">пориви ' + Math.round(days.wind_gusts_10m_max[i]) + ' м/с · ' + dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8] + ' · ' + Math.round(days.temperature_2m_max[i]) + '°C · дощ ' + days.precipitation_probability_max[i] + '%</div>' +
@@ -252,7 +252,8 @@
         $('wind-weekend').innerHTML = weekend.slice(0, 2).map(w => {
           const why = w.vc === 'good' ? 'вітер до ' + w.v + ' м/с' : 'вітер ' + w.v + ' м/с, пориви до ' + w.g + ' м/с';
           const rain = w.rain >= 50 ? ', ймовірний дощ ' + w.rain + '%' : '';
-          return '<div class="wind__we is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong><span>' + w.vt.replace('Легка модель: ', '') + '</span><small>' + why + rain + '</small></div>';
+          const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
+          return '<div class="wind__we is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong><span>' + w.vt.replace('Легка модель: ', '') + '</span><small>' + why + ', напрямок ' + w.dir + ' ' + arrow + rain + '</small></div>';
         }).join('');
       } catch (e) {
         $('wind-verdict').textContent = 'Не вдалося отримати дані про вітер. Спробуйте оновити сторінку.';
