@@ -131,7 +131,8 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 .hero__sky {
   position: absolute;
-  inset: 0;
+  inset: 84px 0 0 0;   /* фото починається під шапкою, щоб модель не ховалася */
+  background-color: #0b0b0b;
   background:
     linear-gradient(180deg, rgba(8, 24, 40, 0.35) 0%, rgba(8, 24, 40, 0.15) 40%, rgba(8, 24, 40, 0.45) 100%),
     url("img/hero.jpg") center top / cover no-repeat;
