@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css">
-  <link rel="stylesheet" href="style.css?v=202609132202">
+  <link rel="stylesheet" href="style.css?v=202609132208">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -61,8 +61,6 @@
 
     <img class="hero__plane" src="img/hero-plane.png" alt="Пілотажна модель клубу в польоті" width="900" height="521">
 
-    <button class="hero__arrow hero__arrow--prev" aria-label="Попередній слайд">&#8249;</button>
-    <button class="hero__arrow hero__arrow--next" aria-label="Наступний слайд">&#8250;</button>
 
     <div class="container hero__content">
       <div class="hero__text">
@@ -80,6 +78,7 @@
       <g id="hud-spd"></g>
       <g id="hud-alt"></g>
       <g id="hud-wind"></g>
+      <g id="hud-sticks"></g>
     </svg>
     <div class="hero__wind">
       <div class="hero__wind-text" id="wind-weekend" aria-live="polite"></div>
@@ -248,7 +247,7 @@
         $('hud-clip-rect').setAttribute('x', CX - 260); $('hud-clip-rect').setAttribute('y', CY - 105); $('hud-clip-rect').setAttribute('width', 520); $('hud-clip-rect').setAttribute('height', 210);
         // шкала крену (статична)
         let arc = '';
-        [-60, -45, -30, -20, -10, 0, 10, 20, 30, 45, 60].forEach(a => {
+        [-90, -60, -45, -30, -20, -10, 0, 10, 20, 30, 45, 60, 90].forEach(a => {
           const len = a % 30 === 0 ? 14 : 8, rad = (a - 90) * Math.PI / 180;
           arc += '<line x1="' + (CX + R * Math.cos(rad)).toFixed(1) + '" y1="' + (CY + R * Math.sin(rad)).toFixed(1) + '" x2="' + (CX + (R - len) * Math.cos(rad)).toFixed(1) + '" y2="' + (CY + (R - len) * Math.sin(rad)).toFixed(1) + '"/>';
         });
@@ -308,32 +307,51 @@
       }
       function wind() {
         const w = window.__wind; if (!w) return;
-        const x = 110, y = CY + Math.round(H * 0.17) + 56, dirs = ['Пн','ПнСх','Сх','ПдСх','Пд','ПдЗх','Зх','ПнЗх'];
-        $('hud-wind').innerHTML = '<g class="hud-line"><text x="' + x + '" y="' + y + '" class="hud-txt hud-txt--dim">WIND SPEED</text>' +
-          '<text x="' + x + '" y="' + (y + 26) + '" class="hud-txt hud-txt--xl">' + w.speed.toFixed(1) + ' <tspan class="hud-txt">м/с</tspan></text>' +
-          '<text x="' + x + '" y="' + (y + 46) + '" class="hud-txt">' + dirs[Math.round(w.dir / 45) % 8] + ' · ' + Math.round(w.dir) + '°  пориви ' + w.gust.toFixed(1) + ' м/с</text>' +
-          '<g transform="translate(' + (x + 150) + ' ' + (y + 18) + ') rotate(' + (w.dir + 180) + ')"><line x1="0" y1="14" x2="0" y2="-10"/><polygon points="0,-16 -6,-6 6,-6" class="hud-red"/></g></g>';
+        const x = 96, y = CY + Math.round(H * 0.17) + 48, dirs = ['Пн','ПнСх','Сх','ПдСх','Пд','ПдЗх','Зх','ПнЗх'];
+        $('hud-wind').innerHTML = '<g class="hud-line">' +
+          '<text x="' + x + '" y="' + y + '" class="hud-txt hud-txt--dim">WIND</text>' +
+          '<rect x="' + x + '" y="' + (y + 8) + '" width="118" height="24" class="hud-box"/>' +
+          '<text x="' + (x + 8) + '" y="' + (y + 25) + '" class="hud-txt hud-txt--b">' + w.speed.toFixed(1) + ' м/с  ' + dirs[Math.round(w.dir / 45) % 8] + ' ' + Math.round(w.dir) + '°</text>' +
+          '<text x="' + x + '" y="' + (y + 48) + '" class="hud-txt">пориви ' + w.gust.toFixed(1) + ' м/с</text>' +
+          '<g transform="translate(' + (x + 150) + ' ' + (y + 20) + ')"><circle r="16"/><line x1="0" y1="-16" x2="0" y2="-12"/><line x1="0" y1="12" x2="0" y2="16"/><line x1="-16" y1="0" x2="-12" y2="0"/><line x1="12" y1="0" x2="16" y2="0"/>' +
+          '<g transform="rotate(' + (w.dir + 180) + ')"><line x1="0" y1="9" x2="0" y2="-5"/><polygon points="0,-11 -4,-4 4,-4" class="hud-red"/></g></g></g>';
       }
+      function sticks() {
+        const S = 64, gap = 40, y0 = H - 200, xl = CX - gap / 2 - S, xr = CX + gap / 2;
+        const box = (x, px, py, label) => '<rect x="' + x + '" y="' + y0 + '" width="' + S + '" height="' + S + '" rx="4"/>' +
+          '<line x1="' + (x + S / 2) + '" y1="' + y0 + '" x2="' + (x + S / 2) + '" y2="' + (y0 + S) + '" opacity="0.4"/><line x1="' + x + '" y1="' + (y0 + S / 2) + '" x2="' + (x + S) + '" y2="' + (y0 + S / 2) + '" opacity="0.4"/>' +
+          '<circle cx="' + (x + S / 2 + px * (S / 2 - 6)).toFixed(1) + '" cy="' + (y0 + S / 2 - py * (S / 2 - 6)).toFixed(1) + '" r="4.5" class="hud-red"/>' +
+          '<text x="' + (x + S / 2) + '" y="' + (y0 + S + 14) + '" class="hud-txt hud-txt--c hud-txt--dim">' + label + '</text>';
+        const rud = Math.max(-1, Math.min(1, turn)), thr = Math.max(-1, Math.min(1, throttle * 2 - 1));
+        const ail = Math.max(-1, Math.min(1, roll / 90)), ele = Math.max(-1, Math.min(1, -pitch / 25));
+        $('hud-sticks').innerHTML = '<g class="hud-line">' + box(xl, rud, thr, 'THR / RUD') + box(xr, ail, ele, 'AIL / ELE') + '</g>';
+      }
+      let turn = 0, throttle = 0.6;
+      const wrap = a => ((a + 540) % 360) - 180;
+      const lerpAng = (a, b, k) => a + wrap(b - a) * k;
       function frame(t) {
         const r = plane.getBoundingClientRect(), hr = hero.getBoundingClientRect();
         const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
         if (last) {
           const dt = Math.max(1, t - last.t) / 1000, dx = cx - last.x, dy = cy - last.y, v = Math.hypot(dx, dy);
-          if (v > 0.2 && v < 400) {
-            const ang = Math.atan2(dx, -dy) * 180 / Math.PI;
-            hdg = ((ang + hdgOffset) % 360 + 360) % 360;
-            pitch = lerp(pitch, Math.max(-25, Math.min(25, -dy / v * 22)), 0.08);
-            if (prevAng !== null) { let dA = ang - prevAng; if (dA > 180) dA -= 360; if (dA < -180) dA += 360; roll = lerp(roll, Math.max(-45, Math.min(45, dA / dt * 0.5)), 0.06); }
+          if (v > 0.15 && v < 400) {
+            const ang = Math.atan2(dx, -dy) * 180 / Math.PI;          // напрямок руху на екрані, 0 = вгору
+            hdg = ((lerpAng(hdg, ang + hdgOffset, 0.06)) % 360 + 360) % 360;
+            // крен = поворот картинки: ніс праворуч = правий крен 90°, ніс униз = на спині
+            roll = lerpAng(roll, ang, 0.05);
+            pitch = lerp(pitch, Math.max(-25, Math.min(25, -dy / v * 22)), 0.04);
+            if (prevAng !== null) turn = lerp(turn, Math.max(-1, Math.min(1, wrap(ang - prevAng) / dt / 40)), 0.05);
             prevAng = ang;
-            spd = lerp(spd, 35 + Math.sin(t / 1900) * 3 - pitch * 0.15 + (Math.random() - 0.5), 0.05);
+            spd = lerp(spd, 35 + Math.sin(t / 1900) * 3 - pitch * 0.15, 0.03);
             const yy = (cy - hr.top - HEADER) / (hr.height - HEADER);
-            alt = lerp(alt, Math.max(5, Math.min(60, 60 - yy * 55)), 0.08);
-          } else { roll = lerp(roll, 0, 0.05); pitch = lerp(pitch, 0, 0.05); }
+            alt = lerp(alt, Math.max(5, Math.min(60, 60 - yy * 55)), 0.04);
+            throttle = lerp(throttle, 0.55 + pitch / 60 + Math.sin(t / 2300) * 0.08, 0.04);
+          } else { turn = lerp(turn, 0, 0.03); }
         }
         last = { t: t, x: cx, y: cy };
         ladder(); heading();
         tape('hud-spd', spd, 5, 6, 110, -1, 'AIRSPEED', 'км/год'); tape('hud-alt', alt, 5, 6, W - 110, 1, 'ALT', 'м');
-        wind();
+        wind(); sticks();
         requestAnimationFrame(frame);
       }
       layout(); window.addEventListener('resize', layout);

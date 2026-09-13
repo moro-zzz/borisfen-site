@@ -555,7 +555,7 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 
 /* ---------- HUD ---------- */
 .hero__hud { position: absolute; left: 0; right: 0; top: 84px; bottom: 0; width: 100%; height: calc(100% - 84px); z-index: 1; pointer-events: none; opacity: 0.85; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)); }
-.hero__hud .hud-line line, .hero__hud .hud-line path { stroke: #fff; stroke-width: 1.3; fill: none; }
+.hero__hud .hud-line line, .hero__hud .hud-line path, .hero__hud .hud-line rect:not(.hud-box), .hero__hud .hud-line circle:not(.hud-red) { stroke: #fff; stroke-width: 1.3; fill: none; }
 .hero__hud .hud-line line.hud-horizon { stroke: #7cfc7c; stroke-width: 2.4; }
 .hero__hud .hud-red { stroke: #ff5a4e; stroke-width: 2.2; fill: #ff5a4e; }
 .hero__hud .hud-red path { fill: none; }
