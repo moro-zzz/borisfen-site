@@ -585,3 +585,10 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 .hero__hud .hud-txt--xl { font-size: 24px; font-weight: 500; }
 .hero__hud .hud-txt--dim { opacity: 0.7; letter-spacing: 0.15em; font-size: 10px; }
 @media (max-width: 1100px) { .hero__hud { display: none; } }
+
+/* ---------- OSD-повідомлення ---------- */
+.hero__title, .hero__subtitle { min-height: 1.2em; transition: opacity 0.35s; }
+.hero__title:empty::after, .hero__subtitle:empty::after { content: "\00a0"; }
+.hero__title.is-typing::after, .hero__subtitle.is-typing::after { content: "▌"; margin-left: 2px; color: var(--accent); animation: osd-blink 0.7s steps(1) infinite; }
+.hero__title.is-hiding, .hero__subtitle.is-hiding { opacity: 0; }
+@keyframes osd-blink { 50% { opacity: 0; } }

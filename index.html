@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css">
-  <link rel="stylesheet" href="style.css?v=202609132221">
+  <link rel="stylesheet" href="style.css?v=202609132236">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -64,7 +64,7 @@
 
     <div class="container hero__content">
       <div class="hero__text">
-        <h1 class="hero__title">Підкорюй небо</h1>
+        <h1 class="hero__title osd-msgs">Підкорюй небо</h1>
         <p class="hero__subtitle">Авіамодельний клуб «Борисфен»</p>
       </div>
     </div>
@@ -357,6 +357,39 @@
       }
       layout(); window.addEventListener('resize', layout);
       requestAnimationFrame(frame);
+    })();
+  </script>
+  <script>
+    // OSD-повідомлення: заголовок і підзаголовок друкуються посимвольно, чергуються
+    (function () {
+      const t = document.querySelector('.hero__title'), s = document.querySelector('.hero__subtitle');
+      if (!t || !s) return;
+      const MSGS = [
+        ['Підкорюй небо', 'Авіамодельний клуб «Борисфен»'],
+        ['Навчання з 12 років', 'Симулятор · майстерня · перші польоти з інструктором'],
+        ['Польотні дні щосуботи', 'Тренери · пілотажні моделі · копії'],
+        ['Клубні змагання', 'EPA Combat · пілотаж · планери']
+      ];
+      const sleep = ms => new Promise(r => setTimeout(r, ms));
+      async function type(el, text, speed) {
+        el.classList.add('is-typing'); el.textContent = '';
+        for (const ch of text) { el.textContent += ch; await sleep(speed + Math.random() * speed); }
+        el.classList.remove('is-typing');
+      }
+      async function fade(el) { el.classList.add('is-hiding'); await sleep(380); el.textContent = ''; el.classList.remove('is-hiding'); }
+      (async function loop() {
+        let i = 0;
+        while (true) {
+          const [a, b] = MSGS[i % MSGS.length];
+          await type(t, a, 45);
+          await sleep(200);
+          await type(s, b, 22);
+          await sleep(7000);
+          await Promise.all([fade(t), fade(s)]);
+          await sleep(700);
+          i++;
+        }
+      })();
     })();
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/js/glightbox.min.js"></script>
