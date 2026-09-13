@@ -336,7 +336,13 @@
       function frame(t) {
         const r = plane.getBoundingClientRect(), hr = hero.getBoundingClientRect();
         const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        if (last) {
+        // модель за межами екрана: стіки й горизонт плавно повертаються в нейтраль
+        const onScreen = r.right > hr.left && r.left < hr.right && r.bottom > hr.top && r.top < hr.bottom;
+        if (!onScreen) {
+          roll = lerpAng(roll, 0, 0.04); pitch = lerp(pitch, 0, 0.04);
+          turn = lerp(turn, 0, 0.04); throttle = lerp(throttle, 0.5, 0.04);
+          prevAng = null;
+        } else if (last) {
           const dt = Math.max(1, t - last.t) / 1000, dx = cx - last.x, dy = cy - last.y, v = Math.hypot(dx, dy);
           if (v > 0.15 && v < 400) {
             const ang = Math.atan2(dx, -dy) * 180 / Math.PI;          // напрямок руху на екрані, 0 = вгору
