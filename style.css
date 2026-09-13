@@ -142,18 +142,25 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 .hero__plane {
   position: absolute;
-  right: 3%;
-  top: 46%;
+  left: 0;
+  top: 0;
   width: clamp(300px, 30vw, 600px);
   height: auto;
   filter: drop-shadow(0 24px 34px rgba(10, 40, 70, 0.35));
   pointer-events: none;
-  animation: float 7s ease-in-out infinite;
+  will-change: transform;
+  animation: fly 18s ease-in-out infinite;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-14px) rotate(-1deg); }
+/* траєкторія: зʼявляється справа знизу, дуга над заголовком, відліт уліво */
+@keyframes fly {
+  0%   { transform: translate(108vw, 70vh) rotate(-6deg); }
+  18%  { transform: translate(68vw, 44vh) rotate(-14deg); }
+  30%  { transform: translate(68vw, 42vh) rotate(-12deg); }
+  50%  { transform: translate(44vw, 10vh) rotate(-24deg); }
+  66%  { transform: translate(24vw, 8vh) rotate(-40deg); }
+  84%  { transform: translate(4vw, 26vh) rotate(-52deg); }
+  100% { transform: translate(-40vw, 44vh) rotate(-58deg); }
 }
 
 .hero__content {
@@ -263,7 +270,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 /* ---------- Адаптив ---------- */
 @media (max-width: 1100px) {
-  .hero__plane { top: 46%; right: 2%; width: 40vw; }
+  .hero__plane { width: 40vw; }
   .hero__arrow--prev { left: 12px; }
   .hero__arrow--next { right: 12px; }
   .hero__title { font-size: 56px; }
@@ -273,7 +280,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 @media (max-width: 820px) {
   .hero__sky { background-position: 72% top; }
-  .hero__plane { top: 66%; right: -8%; width: 74vw; }
+  .hero__plane { width: 64vw; animation-duration: 16s; }
   .nav { display: none; }
   .burger { display: flex; }
   .hero__arrow { display: none; }
