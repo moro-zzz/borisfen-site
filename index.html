@@ -337,9 +337,9 @@
           const want = Math.atan2(mouse.x - px, -(mouse.y - py)) / RAD, dist = Math.hypot(mouse.x - px, mouse.y - py);
           tgtTurn = dist < w * 0.35 ? 0 : clamp(wrap(want - th) / 35, -1, 1);
         }
-        // стік AIL/ELE повторює положення курсора відносно моделі (праворуч/вгору = +), з інерцією
+        // стік AIL/ELE повторює положення курсора відносно моделі, з інерцією. Елеватор реверсний: курсор вище моделі = стік «на себе» (вниз)
         let sx = 0, sy = 0;
-        if (!leaving && mouse) { const dx = mouse.x - px, dy = py - mouse.y, d = Math.hypot(dx, dy) || 1, mag = Math.min(1, d / (W * 0.25)); sx = dx / d * mag; sy = dy / d * mag; }
+        if (!leaving && mouse) { const dx = mouse.x - px, dy = mouse.y - py, d = Math.hypot(dx, dy) || 1, mag = Math.min(1, d / (W * 0.25)); sx = dx / d * mag; sy = dy / d * mag; }
         ctl.ail += (sx - ctl.ail) * Math.min(1, dt * 6); ctl.ele += (sy - ctl.ele) * Math.min(1, dt * 6);
         window.__ctl = ctl;
         turn += (tgtTurn - turn) * Math.min(1, dt * 5);
