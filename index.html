@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=202609132153">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -71,6 +71,24 @@
       </div>
     </div>
 
+    <svg class="hero__hud" id="hud" viewBox="0 0 340 240" aria-hidden="true">
+      <defs><clipPath id="hud-clip"><rect x="60" y="34" width="220" height="150"/></clipPath><clipPath id="hud-hdg"><rect x="60" y="4" width="220" height="24"/></clipPath></defs>
+      <g id="hud-heading" clip-path="url(#hud-hdg)"></g>
+      <polygon points="170,26 165,32 175,32" class="hud-red"/>
+      <rect x="152" y="6" width="36" height="16" class="hud-box"/><text x="170" y="18" id="hud-hdg-txt" class="hud-txt hud-txt--c">000</text>
+      <g id="hud-roll"></g>
+      <g clip-path="url(#hud-clip)"><g id="hud-pitch"></g></g>
+      <g class="hud-red"><path d="M120 116 h30 M190 116 h30"/><path d="M150 116 l20 -8 l20 8"/></g>
+      <g id="hud-spd" clip-path="url(#hud-clip)"></g>
+      <rect x="22" y="108" width="40" height="16" class="hud-box"/><text x="42" y="120" id="hud-spd-txt" class="hud-txt hud-txt--c">35</text>
+      <text x="8" y="196" class="hud-txt">AS <tspan id="hud-as">35</tspan> км/год</text>
+      <text x="8" y="210" class="hud-txt">GS <tspan id="hud-gs">33</tspan> км/год</text>
+      <g id="hud-alt" clip-path="url(#hud-clip)"></g>
+      <rect x="278" y="108" width="44" height="16" class="hud-box"/><text x="300" y="120" id="hud-alt-txt" class="hud-txt hud-txt--c">40 м</text>
+      <text x="332" y="196" class="hud-txt hud-txt--r">Auto</text>
+      <text x="332" y="210" class="hud-txt hud-txt--r"><tspan id="hud-clock">00:00:00</tspan></text>
+      <text x="170" y="232" class="hud-txt hud-txt--c hud-txt--dim">EKF   Vibe   GPS: rtk Fixed</text>
+    </svg>
     <div class="hero__wind">
       <div class="hero__wind-text" id="wind-weekend" aria-live="polite"></div>
       <div class="hero__wind-map">
@@ -221,6 +239,91 @@
       pick();
       plane.addEventListener('animationiteration', pick);
       window.addEventListener('resize', () => plane.style.setProperty('--fly', JSON.stringify(toPx(ROUTES[current]))));
+    })();
+  </script>
+  <script>
+    // HUD: показники рахуються з реального руху моделі на екрані
+    (function () {
+      const hud = document.getElementById('hud'), plane = document.querySelector('.hero__plane'), hero = document.querySelector('.hero');
+      if (!hud || !plane || !hero) return;
+      const $ = id => document.getElementById(id);
+      const CX = 170, CY = 116, R = 70;
+      let arc = '';
+      [-60, -45, -30, -20, -10, 0, 10, 20, 30, 45, 60].forEach(a => {
+        const len = a % 30 === 0 ? 9 : 5, rad = (a - 90) * Math.PI / 180;
+        arc += '<line x1="' + (CX + R * Math.cos(rad)).toFixed(1) + '" y1="' + (CY + R * Math.sin(rad)).toFixed(1) + '" x2="' + (CX + (R - len) * Math.cos(rad)).toFixed(1) + '" y2="' + (CY + (R - len) * Math.sin(rad)).toFixed(1) + '"/>';
+      });
+      const s60 = Math.sin(Math.PI / 3), c60 = Math.cos(Math.PI / 3);
+      $('hud-roll').innerHTML = '<g class="hud-line">' + arc + '<path d="M ' + (CX - R * s60).toFixed(1) + ' ' + (CY - R * c60).toFixed(1) + ' A ' + R + ' ' + R + ' 0 0 1 ' + (CX + R * s60).toFixed(1) + ' ' + (CY - R * c60).toFixed(1) + '"/></g>' +
+        '<polygon id="hud-roll-ptr" points="' + CX + ',' + (CY - R + 2) + ' ' + (CX - 5) + ',' + (CY - R + 10) + ' ' + (CX + 5) + ',' + (CY - R + 10) + '" class="hud-red"/>';
+      const rollPtr = $('hud-roll-ptr');
+      let last = null, hdg = 0, hdgOffset = Math.random() * 360, pitch = 0, roll = 0, spd = 35, gs = 33, alt = 40, prevAng = null;
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const compass = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+      function ladder() {
+        let s = '';
+        for (let p = -30; p <= 30; p += 10) {
+          if (p === 0) continue;
+          const y = (CY + (pitch - p) * 3.2).toFixed(1), w = p % 20 === 0 ? 40 : 26;
+          s += '<line x1="' + (CX - w) + '" y1="' + y + '" x2="' + (CX - 8) + '" y2="' + y + '"/><line x1="' + (CX + 8) + '" y1="' + y + '" x2="' + (CX + w) + '" y2="' + y + '"/>' +
+               '<text x="' + (CX - w - 6) + '" y="' + (+y + 4).toFixed(1) + '" class="hud-txt hud-txt--r hud-txt--s">' + p + '</text>';
+        }
+        const y0 = (CY + pitch * 3.2).toFixed(1);
+        s += '<line class="hud-horizon" x1="' + (CX - 105) + '" y1="' + y0 + '" x2="' + (CX - 12) + '" y2="' + y0 + '"/><line class="hud-horizon" x1="' + (CX + 12) + '" y1="' + y0 + '" x2="' + (CX + 105) + '" y2="' + y0 + '"/>';
+        $('hud-pitch').innerHTML = '<g class="hud-line" transform="rotate(' + (-roll).toFixed(1) + ' ' + CX + ' ' + CY + ')">' + s + '</g>';
+        rollPtr.setAttribute('transform', 'rotate(' + (-roll).toFixed(1) + ' ' + CX + ' ' + CY + ')');
+      }
+      function tape(id, value, step, px, x, dir) {
+        let s = '';
+        const base = Math.floor(value / step) * step;
+        for (let v = base - step * 5; v <= base + step * 5; v += step) {
+          if (v < 0) continue;
+          const y = (CY - (v - value) * px).toFixed(1);
+          s += '<line x1="' + x + '" y1="' + y + '" x2="' + (x + 6 * dir) + '" y2="' + y + '"/><text x="' + (x + 10 * dir) + '" y="' + (+y + 3.5).toFixed(1) + '" class="hud-txt hud-txt--s' + (dir < 0 ? ' hud-txt--r' : '') + '">' + v + '</text>';
+        }
+        $(id).innerHTML = '<g class="hud-line">' + s + '</g>';
+      }
+      function heading() {
+        let s = '';
+        const h0 = Math.round(hdg / 5) * 5;
+        for (let d = -50; d <= 50; d += 5) {
+          const v = ((h0 + d) % 360 + 360) % 360;
+          let rel = h0 + d - hdg;
+          const x = CX + rel * 2.2;
+          if (x < 62 || x > 278) continue;
+          const major = v % 15 === 0;
+          s += '<line x1="' + x.toFixed(1) + '" y1="' + (major ? 20 : 24) + '" x2="' + x.toFixed(1) + '" y2="28"/>';
+          if (major) s += '<text x="' + x.toFixed(1) + '" y="16" class="hud-txt hud-txt--c hud-txt--s">' + (v % 45 === 0 ? compass[v / 45] : v) + '</text>';
+        }
+        $('hud-heading').innerHTML = '<g class="hud-line">' + s + '</g>';
+        $('hud-hdg-txt').textContent = String(Math.round(hdg) % 360).padStart(3, '0');
+      }
+      function frame(t) {
+        const r = plane.getBoundingClientRect(), hr = hero.getBoundingClientRect();
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        if (last) {
+          const dt = Math.max(1, t - last.t) / 1000, dx = cx - last.x, dy = cy - last.y, v = Math.hypot(dx, dy);
+          if (v > 0.2 && v < 400) {
+            const ang = Math.atan2(dx, -dy) * 180 / Math.PI;
+            hdg = ((ang + hdgOffset) % 360 + 360) % 360;
+            pitch = lerp(pitch, Math.max(-25, Math.min(25, -dy / v * 22)), 0.08);
+            if (prevAng !== null) { let dA = ang - prevAng; if (dA > 180) dA -= 360; if (dA < -180) dA += 360; roll = lerp(roll, Math.max(-45, Math.min(45, dA / dt * 0.5)), 0.06); }
+            prevAng = ang;
+            spd = lerp(spd, 35 + Math.sin(t / 1900) * 3 - pitch * 0.15 + (Math.random() - 0.5), 0.05);
+            gs = lerp(gs, spd - 2 + Math.sin(t / 3100), 0.05);
+            const y = (cy - hr.top - 84) / (hr.height - 84);
+            alt = lerp(alt, Math.max(5, Math.min(60, 60 - y * 55)), 0.08);
+          } else { roll = lerp(roll, 0, 0.05); pitch = lerp(pitch, 0, 0.05); }
+        }
+        last = { t: t, x: cx, y: cy };
+        ladder(); heading();
+        tape('hud-spd', spd, 5, 3.2, 60, -1); tape('hud-alt', alt, 5, 3.2, 280, 1);
+        $('hud-spd-txt').textContent = Math.round(spd); $('hud-as').textContent = Math.round(spd); $('hud-gs').textContent = Math.round(gs);
+        $('hud-alt-txt').textContent = Math.round(alt) + ' м';
+        const d = new Date(); $('hud-clock').textContent = [d.getHours(), d.getMinutes(), d.getSeconds()].map(n => String(n).padStart(2, '0')).join(':');
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
     })();
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/js/glightbox.min.js"></script>
