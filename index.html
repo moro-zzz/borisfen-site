@@ -23,7 +23,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css" integrity="sha384-GPAzSuZc0kFvdIev6wm9zg8gnafE8tLso7rsAYQfc9hAdWCpOcpcNI5W9lWkYcsd" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css?v=202609132351">
+  <link rel="stylesheet" href="style.css?v=202609132352">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -375,7 +375,8 @@
           }
           engage();
         });
-        hero.addEventListener('mouseleave', () => { mouse = null; moveSince = 0; lastInput = performance.now(); });
+        // курсор вийшов із зони керування: одразу AUTO (модель відлітає за екран і повертається на маршрут)
+        hero.addEventListener('mouseleave', () => { mouse = null; moveSince = 0; lastInput = performance.now(); if (manual) { lock = false; leaving = true; } });
       }
       modeBtns.forEach(b => b.addEventListener('click', () => {
         if (b.dataset.mode === 'manual') { lock = true; engage(true); showMode('manual'); }
@@ -575,7 +576,7 @@
         ['Навчання з 12 років', 'Симулятор · майстерня · перші польоти з інструктором'],
         ['Польотні дні щосуботи та неділі', 'Тренери · пілотажні моделі · копії'],
         ['Клубні змагання', 'EPA Combat · пілотаж · планери'],
-        ['Керуй моделлю сам', 'Веди курсором над небом або перемкни MANUAL · AUTO повертає маршрут']
+        ['Керуй моделлю сам', 'Веди курсором над небом · виведи курсор з неба — AUTO']
       ];
       let inView = true;
       new IntersectionObserver(en => { inView = en[0].isIntersecting; }, { threshold: 0.1 }).observe(hero);
