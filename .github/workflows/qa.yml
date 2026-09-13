@@ -1,0 +1,22 @@
+name: QA сайту
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * 1'   # щопонеділка 06:00 UTC, на випадок якщо щось зламалося без пушу
+  workflow_dispatch:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Зачекати на деплой Vercel
+        if: github.event_name == 'push'
+        run: sleep 90
+      - name: Перевірити сайт
+        run: python tools/qa.py https://borisfen-site.vercel.app
