@@ -56,6 +56,7 @@ page = f'''<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css">
   <link rel="stylesheet" href="style.css">
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="page">
 
