@@ -173,7 +173,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   padding: 60px 0 80px;
 }
 
-.hero__text { text-align: center; flex: 1; }
+.hero__text { text-align: center; flex: 1; transform: translateY(96px); }
 
 .hero__title {
   display: table;
@@ -562,6 +562,7 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 @media (max-width: 820px) {
   .hero { flex-direction: column; justify-content: center; }
   .hero__content { padding: 40px 0 16px; }
+  .hero__text { transform: none; }
   .hero__wind { display: flex; position: static; margin: 0 16px 110px; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
   .hero__wind-text, .hero__wind-map { position: static; text-align: center; align-items: center; }
   .hero__wind-day { margin-bottom: 6px; }
