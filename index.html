@@ -307,7 +307,7 @@
       }
       function engage(force) {
         lastInput = performance.now();
-        if (manual) { leaving = false; return; }
+        if (manual) { if (leaving) { leaving = false; showMode('manual'); } return; }   // повторне захоплення під час відльоту
         if (engaging) return;
         engaging = true;
         // напрямок руху на автопілоті беремо з двох кадрів, щоб перехопити без стрибка
@@ -368,7 +368,7 @@
           if (e.target.closest('.hero__text, .hero__wind, a, button')) { moveSince = 0; return; }
           const hr = hero.getBoundingClientRect(), now = performance.now();
           mouse = { x: e.clientX - hr.left, y: e.clientY - hr.top };
-          if (!manual) {
+          if (!manual || leaving) {   // під час відльоту після AUTO теж потрібен утриманий рух, а не випадковий
             if (!moveSince || now - lastMove > 250) moveSince = now;   // пауза в русі — рахуємо утримання заново
             lastMove = now;
             if (now - moveSince < HOLD) return;
