@@ -16,5 +16,5 @@
 <path d="M20 132 C50 132 60 112 88 112 C116 112 126 132 154 132" fill="none" stroke="#1d5b8a" stroke-width="5" stroke-linecap="round"/>
 <g transform="translate(112 50) rotate(35) scale(0.42)" color="#ffffff"><use href="#plane" fill="#ffffff"/><use href="#canopy" fill="#0b0b0b" opacity="0.55"/></g>
 <text x="200" y="82" font-family="Ubuntu, 'Segoe UI', Arial, sans-serif" font-weight="300" font-size="44" letter-spacing="3" fill="#ffffff">БОРИС<tspan fill="#47ded9">ФЕН</tspan></text>
-<text x="203" y="112" font-family="Ubuntu, 'Segoe UI', Arial, sans-serif" font-weight="400" font-size="12" letter-spacing="5" fill="#9aa">АВІАМОДЕЛЬНИЙ КЛУБ · КИЇВ</text>
+<text x="203" y="112" font-family="Ubuntu, 'Segoe UI', Arial, sans-serif" font-weight="400" font-size="12" letter-spacing="5" fill="#9aa">АВІАМОДЕЛЬНИЙ КЛУБ</text>
 </svg>
