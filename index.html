@@ -70,8 +70,9 @@
         <a href="#about" class="btn">Дізнатися більше</a>
       </div>
     </div>
-  </section>
 
+    <div class="hero__wind" id="wind-weekend" aria-live="polite"></div>
+  </section>
 
 
   <!--GALLERY-->
@@ -160,15 +161,6 @@
   </section>
   <!--/GALLERY-->
 
-  <section class="wind" id="wind">
-    <div class="container">
-      <div class="section-head">
-        <p class="section-head__kicker">Погода на полі</p>
-        <h2 class="section-head__title">Вітер у Києві</h2>
-      </div>
-      <div class="wind__weekend" id="wind-weekend" aria-live="polite"></div>
-    </div>
-  </section>
 
 
   <script>
@@ -225,14 +217,13 @@
           const [vt, vc] = verdict(days.wind_speed_10m_max[i], days.wind_gusts_10m_max[i]);
           weekend.push({ name: wd === 6 ? 'Субота' : 'Неділя', date: dt.getDate(), v: Math.round(days.wind_speed_10m_max[i]), g: Math.round(days.wind_gusts_10m_max[i]), dir: dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8], deg: days.wind_direction_10m_dominant[i], rain: days.precipitation_probability_max[i], temp: Math.round(days.temperature_2m_max[i]), vt, vc });
         });
-        $('wind-weekend').innerHTML = weekend.slice(0, 2).map(w => {
-          const why = w.vc === 'good' ? 'вітер до ' + w.v + ' м/с' : 'вітер ' + w.v + ' м/с, пориви до ' + w.g + ' м/с';
-          const rain = w.rain >= 50 ? ', ймовірний дощ ' + w.rain + '%' : '';
+        $('wind-weekend').innerHTML = '<div class="hero__wind-title">Вітер на вихідних</div>' + weekend.slice(0, 2).map(w => {
           const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
-          return '<div class="wind__we is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong><span>' + w.vt.replace('Легка модель: ', '') + '</span><small>' + why + ', напрямок ' + w.dir + ' ' + arrow + ', до ' + w.temp + ' °C' + rain + '</small></div>';
+          const rain = w.rain >= 50 ? ' · дощ ' + w.rain + '%' : '';
+          return '<div class="hero__wind-day is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong> ' + w.vt.replace('Легка модель: ', '') + ' <span>· ' + w.v + ' м/с, ' + w.dir + ' ' + arrow + ' · до ' + w.temp + ' °C' + rain + '</span></div>';
         }).join('');
       } catch (e) {
-        $('wind-weekend').innerHTML = '<p class="small">Не вдалося отримати дані про вітер. Спробуйте оновити сторінку.</p>';
+        $('wind-weekend').textContent = '';
       }
     })();
   </script>
