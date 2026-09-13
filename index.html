@@ -206,14 +206,6 @@
         // 6. пологий S справа наліво
         'M 1.15 0.30 C 0.95 0.36 0.80 0.16 0.60 0.20 S 0.30 0.34 0.15 0.24 S -0.10 0.16 -0.30 0.22'
       ];
-      // моделі чергуються по колу; nose = кут носа на картинці (offset-rotate: auto <кут>)
-      const PLANES = [
-        { src: 'img/hero-plane.png', nose: 132 },      // Extra, вид зверху, ніс угору-ліворуч
-        { src: 'img/hero-plane-2.png', nose: 180 },    // Thunderbolt, вид збоку, ніс ліворуч
-        { src: 'img/hero-plane-3.png', nose: 207 }     // Decathlon, три чверті, ніс униз-ліворуч
-      ];
-      PLANES.forEach(p => { const i = new Image(); i.src = p.src; });
-      let planeIdx = 0;
       let current = -1;
       function toPx(route) {
         const W = hero.clientWidth, H = hero.clientHeight;
@@ -225,8 +217,6 @@
         current = i;
         plane.style.setProperty('--fly', JSON.stringify(toPx(ROUTES[i])));
         plane.style.animationDuration = (18 + Math.random() * 8).toFixed(1) + 's';
-        const pl = PLANES[planeIdx]; planeIdx = (planeIdx + 1) % PLANES.length;
-        plane.src = pl.src; plane.style.offsetRotate = 'auto ' + pl.nose + 'deg';
       }
       pick();
       plane.addEventListener('animationiteration', pick);
