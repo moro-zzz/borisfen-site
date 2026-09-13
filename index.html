@@ -466,12 +466,12 @@
         const hms = now.toLocaleTimeString('uk-UA', { timeZone: 'Europe/Kyiv', hour12: false });
         const key = hms + '|' + c.src + '|' + W; if (key === clockKey) return; clockKey = key;   // оновлення раз на секунду
         const x = W - 96, y = 34;
-        const note = c.src === 'NTP' ? 'NTP ±' + Math.max(1, Math.round(c.rtt / 2)) + ' мс' : 'годинник пристрою';
+        const note = c.src === 'NTP' ? 'NTP ±' + Math.max(1, Math.round(c.rtt / 2)) + ' мс' : '';   // без синхронізації підпис не показуємо
         $('hud-clock').innerHTML = '<g class="hud-line">' +
           '<text x="' + x + '" y="' + (y - 15) + '" class="hud-txt hud-txt--dim hud-txt--r">TIME · KYIV</text>' +
           '<rect x="' + (x - 82) + '" y="' + (y - 8) + '" width="82" height="24" class="hud-box"/>' +
           '<text x="' + (x - 41) + '" y="' + (y + 9) + '" class="hud-txt hud-txt--c hud-txt--b">' + hms + '</text>' +
-          '<text x="' + x + '" y="' + (y + 30) + '" class="hud-txt hud-txt--dim hud-txt--r">' + note + '</text></g>';
+          (note ? '<text x="' + x + '" y="' + (y + 30) + '" class="hud-txt hud-txt--dim hud-txt--r">' + note + '</text>' : '') + '</g>';
       }
       let alertKey = '';
       function alert() {
