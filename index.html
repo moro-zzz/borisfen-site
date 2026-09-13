@@ -233,6 +233,79 @@
       }
       pick();
       plane.addEventListener('animationiteration', pick);
+
+      // ---- Ручне керування: стрілки / WASD або мишка над небом; 5 с без дій — модель відлітає за екран і вмикається автопілот
+      const HEADER = 84, IDLE = 5000, RAD = Math.PI / 180;
+      const wrap = a => ((a + 540) % 360) - 180, clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+      const keys = {}; let manual = false, leaving = false, lastInput = 0, mouse = null, lastT = 0;
+      let px = 0, py = 0, th = 0, spd = 0, turn = 0, trk = [];
+      const KEYMAP = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down', KeyA: 'left', KeyD: 'right', KeyW: 'up', KeyS: 'down' };
+      const KEYS = { a: 'left', d: 'right', w: 'up', s: 'down', ф: 'left', в: 'right', ц: 'up', і: 'down', ы: 'down' };
+      const keyOf = e => KEYMAP[e.code] || KEYMAP[e.key] || KEYS[(e.key || '').toLowerCase()];
+      function centre() {
+        const r = plane.getBoundingClientRect(), hr = hero.getBoundingClientRect();
+        return { x: r.left - hr.left + r.width / 2, y: r.top - hr.top + r.height / 2 };
+      }
+      // напрямок руху на автопілоті: щоб перехоплення було без стрибка
+      (function track() { if (!manual) { trk.push(centre()); if (trk.length > 6) trk.shift(); } requestAnimationFrame(track); })();
+      function engage() {
+        lastInput = performance.now();
+        if (manual) { leaving = false; return; }
+        const c = centre(), a = trk[0], b = trk[trk.length - 1];
+        px = c.x; py = c.y;
+        th = (a && b && (a.x !== b.x || a.y !== b.y)) ? Math.atan2(b.x - a.x, -(b.y - a.y)) / RAD : 0;
+        spd = hero.clientWidth * 0.07; turn = 0; lastT = 0;
+        plane.style.animation = 'none'; plane.style.offsetPath = 'none';
+        manual = true; leaving = false; hero.classList.add('is-manual');
+        requestAnimationFrame(step);
+      }
+      function release() {
+        manual = false; leaving = false; mouse = null; hero.classList.remove('is-manual');
+        plane.style.transform = ''; plane.style.offsetPath = ''; trk = [];
+        pick();
+      }
+      function step(t) {
+        if (!manual) return;
+        const dt = lastT ? Math.min(0.05, (t - lastT) / 1000) : 0; lastT = t;
+        const W = hero.clientWidth, H = hero.clientHeight, w = plane.offsetWidth, hh = plane.offsetHeight, m = Math.max(w, hh) / 2;
+        let tgtTurn = 0, tgtSpd = W * 0.07;
+        if (leaving) {
+          // автопілот: розворот до найближчого краю і відліт
+          const edges = [[-90, px], [90, W - px], [0, py], [180, H - py]].sort((p, q) => p[1] - q[1]);
+          tgtTurn = clamp(wrap(edges[0][0] - th) / 40, -1, 1);
+        } else {
+          if (keys.left) tgtTurn = -1; if (keys.right) tgtTurn = 1;
+          if (keys.up) tgtSpd *= 1.8; if (keys.down) tgtSpd *= 0.55;
+          if (mouse && !keys.left && !keys.right) {
+            const want = Math.atan2(mouse.x - px, -(mouse.y - py)) / RAD, dist = Math.hypot(mouse.x - px, mouse.y - py);
+            tgtTurn = dist < w * 0.35 ? 0 : clamp(wrap(want - th) / 35, -1, 1);
+          }
+        }
+        turn += (tgtTurn - turn) * Math.min(1, dt * 5);
+        spd += (tgtSpd - spd) * Math.min(1, dt * 2);
+        th += turn * 100 * dt;
+        px += Math.sin(th * RAD) * spd * dt; py -= Math.cos(th * RAD) * spd * dt;
+        if (!leaving) {
+          if (px < -m) px = W + m; else if (px > W + m) px = -m;
+          if (py < HEADER - m) py = H + m; else if (py > H + m) py = HEADER - m;
+          if (t - lastInput > IDLE) leaving = true;
+        } else if (px < -w || px > W + w || py < -hh || py > H + hh) { release(); return; }
+        plane.style.transform = 'translate(' + (px - w / 2).toFixed(1) + 'px, ' + (py - hh / 2).toFixed(1) + 'px) rotate(' + (th + 42).toFixed(1) + 'deg)';
+        requestAnimationFrame(step);
+      }
+      const heroVisible = () => hero.getBoundingClientRect().bottom > 200;
+      window.addEventListener('keydown', e => {
+        const k = keyOf(e); if (!k || !heroVisible() || e.altKey || e.ctrlKey || e.metaKey) return;
+        if (/^(INPUT|TEXTAREA)$/.test((document.activeElement || {}).tagName || '')) return;
+        e.preventDefault(); keys[k] = true; engage();
+      });
+      window.addEventListener('keyup', e => { const k = keyOf(e); if (k) { keys[k] = false; lastInput = performance.now(); } });
+      hero.addEventListener('mousemove', e => {
+        if (window.matchMedia('(hover: none)').matches) return;
+        const hr = hero.getBoundingClientRect(); mouse = { x: e.clientX - hr.left, y: e.clientY - hr.top };
+        engage();
+      });
+      hero.addEventListener('mouseleave', () => { mouse = null; lastInput = performance.now(); });
       window.addEventListener('resize', () => plane.style.setProperty('--fly', JSON.stringify(toPx(ROUTES[current]))));
     })();
   </script>
@@ -378,7 +451,8 @@
         ['Авіамодельний клуб «Борисфен»', 'Підкорюй небо'],
         ['Навчання з 12 років', 'Симулятор · майстерня · перші польоти з інструктором'],
         ['Польотні дні щосуботи та неділі', 'Тренери · пілотажні моделі · копії'],
-        ['Клубні змагання', 'EPA Combat · пілотаж · планери']
+        ['Клубні змагання', 'EPA Combat · пілотаж · планери'],
+        ['Керуй моделлю сам', 'Стрілки ← → ↑ ↓ або мишка над небом · без дій 5 с — автопілот']
       ];
       const sleep = ms => new Promise(r => setTimeout(r, ms));
       async function type(el, text, speed) {
