@@ -141,15 +141,14 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 .hero__clouds { display: none; }
 
 .hero__plane {
-  display: none;
   position: absolute;
-  right: 9%;
-  bottom: 5%;
-  width: 380px;
-  height: 380px;
-  opacity: 0.92;
-  filter: drop-shadow(0 24px 30px rgba(10, 40, 70, 0.35));
-  animation: float 6s ease-in-out infinite;
+  right: 4%;
+  top: 40%;
+  width: clamp(300px, 34vw, 640px);
+  height: auto;
+  filter: drop-shadow(0 24px 34px rgba(10, 40, 70, 0.35));
+  pointer-events: none;
+  animation: float 7s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -264,7 +263,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 /* ---------- Адаптив ---------- */
 @media (max-width: 1100px) {
-  .hero__plane { width: 300px; height: 300px; right: 4%; bottom: 4%; }
+  .hero__plane { top: 46%; right: 2%; width: 40vw; }
   .hero__arrow--prev { left: 12px; }
   .hero__arrow--next { right: 12px; }
   .hero__title { font-size: 56px; }
@@ -274,10 +273,10 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 
 @media (max-width: 820px) {
   .hero__sky { background-position: 72% top; }
+  .hero__plane { top: 60%; right: -6%; width: 78vw; }
   .nav { display: none; }
   .burger { display: flex; }
   .hero__arrow { display: none; }
-  .hero__plane { width: 220px; height: 220px; bottom: 16%; right: 0; }
   .hero__title { font-size: 44px; }
   .hero__subtitle { letter-spacing: 0.3em; }
 }
