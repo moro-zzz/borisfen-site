@@ -135,7 +135,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   background-color: #0b0b0b;
   background:
     linear-gradient(180deg, rgba(8, 24, 40, 0.35) 0%, rgba(8, 24, 40, 0.15) 40%, rgba(8, 24, 40, 0.45) 100%),
-    url("img/hero.jpg") center top / cover no-repeat;
+    url("img/hero.jpg") center bottom / cover no-repeat;
 }
 
 .hero__clouds { display: none; }
