@@ -23,7 +23,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css" integrity="sha384-GPAzSuZc0kFvdIev6wm9zg8gnafE8tLso7rsAYQfc9hAdWCpOcpcNI5W9lWkYcsd" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css?v=202609132321">
+  <link rel="stylesheet" href="style.css?v=202609132338">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -91,10 +91,11 @@
       <g id="hud-spd"></g>
       <g id="hud-alt"></g>
       <g id="hud-wind"></g>
+      <g id="hud-alert"></g>
       <g id="hud-sticks"></g>
     </svg>
     <div class="hero__wind">
-      <div class="hero__wind-text" id="wind-weekend" aria-live="polite"></div>
+      <div class="hero__wind-text"><p class="hero__alert" id="alert-pill" hidden></p><div id="wind-weekend" aria-live="polite"></div></div>
       <div class="hero__wind-map">
 <svg class="hero__field" viewBox="-78 -66 156 132" aria-label="Схема льотного поля з напрямком вітру">
         <g>
@@ -457,6 +458,21 @@
           '<g transform="translate(' + (x + 104) + ' ' + (y + 20) + ')"><circle r="16"/><line x1="0" y1="-16" x2="0" y2="-12"/><line x1="0" y1="12" x2="0" y2="16"/><line x1="-16" y1="0" x2="-12" y2="0"/><line x1="12" y1="0" x2="16" y2="0"/>' +
           '<g transform="rotate(' + (w.dir + 180) + ')"><line x1="0" y1="9" x2="0" y2="-5"/><polygon points="0,-11 -4,-4 4,-4" class="hud-red"/></g></g></g>';
       }
+      let alertKey = '';
+      function alert() {
+        const a = window.__alert; if (!a) return;
+        const key = a.alert + '|' + a.since + '|' + W; if (key === alertKey) return; alertKey = key;
+        const x = 96, y = CY + Math.round(H * 0.17) + 48 + 62;
+        let since = '';
+        if (a.since) { const d = new Date(a.since); if (!isNaN(d)) since = ' з ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+        const on = a.alert === true, txt = a.alert === null ? 'немає даних' : on ? 'ТРИВОГА' + since : 'тривоги немає' + since;
+        const wBox = Math.max(74, txt.length * 7.2 + 24);
+        $('hud-alert').innerHTML = '<g class="hud-line' + (on ? ' hud-alert--on' : '') + '">' +
+          '<text x="' + x + '" y="' + y + '" class="hud-txt hud-txt--dim">ALERT · КИЇВ</text>' +
+          '<rect x="' + x + '" y="' + (y + 8) + '" width="' + wBox + '" height="24" class="hud-box' + (on ? ' hud-box--alert' : '') + '"/>' +
+          '<text x="' + (x + wBox / 2) + '" y="' + (y + 25) + '" class="hud-txt hud-txt--c hud-txt--b">' + txt + '</text>' +
+          (on ? '<circle cx="' + (x + wBox + 16) + '" cy="' + (y + 20) + '" r="5" class="hud-alert-dot"/>' : '') + '</g>';
+      }
       function sticks() {
         const S = 64, gap = 40, y0 = H - 200, xl = CX - gap / 2 - S, xr = CX + gap / 2;
         const box = (x, px, py, label) => '<rect x="' + x + '" y="' + y0 + '" width="' + S + '" height="' + S + '" rx="4"/>' +
@@ -506,7 +522,7 @@
         last = { t: t, x: cx, y: cy };
         ladder(); heading();
         tape('hud-spd', spd, 5, 6, 110, -1, 'AIRSPEED', 'км/год'); tape('hud-alt', alt, 5, 6, W - 110, 1, 'ALT', 'м');
-        wind(); sticks();
+        wind(); alert(); sticks();
         if (inView) requestAnimationFrame(frame); else running = false;
       }
       let inView = true, running = false;
@@ -575,6 +591,27 @@
       burger.addEventListener('click', () => toggle(!nav.classList.contains('is-open')));
       nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
       document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
+    })();
+  </script>
+  <script>
+    // Повітряна тривога в м. Київ: /api/alerts (serverless-проксі), оновлення раз на хвилину
+    (function () {
+      const pill = document.getElementById('alert-pill');
+      async function poll() {
+        try {
+          const r = await fetch('/api/alerts', { cache: 'no-store' });
+          const a = await r.json();
+          window.__alert = { alert: a.alert, since: a.since };
+        } catch (e) { window.__alert = { alert: null, since: null }; }
+        if (pill) {
+          const a = window.__alert;
+          pill.hidden = a.alert === null;
+          pill.className = 'hero__alert' + (a.alert ? ' is-on' : '');
+          pill.textContent = a.alert ? 'Повітряна тривога · польоти скасовано' : 'Тривоги немає';
+        }
+      }
+      poll(); setInterval(poll, 60000);
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
     })();
   </script>
   <script>

@@ -585,6 +585,10 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 .hero__hud .hud-txt--b { font-size: 13px; font-weight: 500; }
 .hero__hud .hud-txt--xl { font-size: 24px; font-weight: 500; }
 .hero__hud .hud-txt--dim { opacity: 0.7; letter-spacing: 0.15em; font-size: 10px; }
+.hero__hud .hud-box--alert { fill: rgba(255, 92, 92, 0.35); stroke: #ff5c5c; }
+.hero__hud .hud-alert--on .hud-txt--b { fill: #fff; }
+.hero__hud .hud-line circle.hud-alert-dot { fill: #ff5c5c; stroke: none; animation: hud-blink 1s steps(1) infinite; }
+@keyframes hud-blink { 50% { opacity: 0; } }
 @media (max-width: 1100px) { .hero__hud { display: none; } }
 
 /* ---------- OSD-повідомлення (друкується лише візуальна копія .hero__osd; h1 статичний) ---------- */
@@ -626,3 +630,10 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 @media (min-width: 821px) and (max-height: 700px) {
   .hero__text { transform: translateY(30px); }
 }
+
+/* ---------- тривога: піл над прогнозом, лише коли HUD прихований ---------- */
+.hero__alert { display: none; margin: 0 0 8px; padding: 6px 14px; border-radius: 999px; font-size: 13px; letter-spacing: 0.06em; background: rgba(255, 255, 255, 0.14); color: #fff; width: max-content; max-width: 100%; }
+.hero__alert.is-on { background: rgba(255, 92, 92, 0.45); }
+#wind-weekend { display: contents; }
+@media (max-width: 1100px) { .hero__alert:not([hidden]) { display: inline-block; } }
+@media (max-width: 820px) { .hero__alert { margin: 0 auto 8px; display: none; } .hero__alert:not([hidden]) { display: block; } }
