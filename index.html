@@ -284,7 +284,7 @@
           if (py < HEADER - m) py = H + m; else if (py > H + m) py = HEADER - m;
           if (t - lastInput > IDLE) leaving = true;
         } else if (px < -w || px > W + w || py < -hh || py > H + hh) { release(); return; }
-        plane.style.transform = 'translate(' + (px - w / 2).toFixed(1) + 'px, ' + (py - hh / 2).toFixed(1) + 'px) rotate(' + (th + 42).toFixed(1) + 'deg)';
+        plane.style.transform = 'translate(' + (px - w / 2) + 'px, ' + (py - hh / 2) + 'px) rotate(' + (th + 42) + 'deg)';
         requestAnimationFrame(step);
       }
       hero.addEventListener('mousemove', e => {
@@ -389,27 +389,32 @@
         const ail = Math.max(-1, Math.min(1, roll / 90)), ele = Math.max(-1, Math.min(1, pitch / 25));
         $('hud-sticks').innerHTML = '<g class="hud-line">' + box(xl, rud, thr, 'THR / RUD') + box(xr, ail, ele, 'AIL / ELE') + '</g>';
       }
-      let turn = 0, throttle = 0.6, snap = 0;
+      let turn = 0, throttle = 0.6, snap = 0, hist = [];
       plane.addEventListener('animationiteration', () => { last = null; prevAng = null; snap = 40; });
       const wrap = a => ((a + 540) % 360) - 180;
       const lerpAng = (a, b, k) => a + wrap(b - a) * k;
       function frame(t) {
         const r = plane.getBoundingClientRect(), hr = hero.getBoundingClientRect();
         const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        // модель за межами екрана: стіки й горизонт плавно повертаються в нейтраль
-        const onScreen = r.right > hr.left && r.left < hr.right && r.bottom > hr.top && r.top < hr.bottom;
+        // модель за межами екрана (без прозорих полів картинки): стіки й горизонт плавно повертаються в нейтраль
+        const mx = r.width * 0.25, my = r.height * 0.25;
+        const onScreen = r.right - mx > hr.left && r.left + mx < hr.right && r.bottom - my > hr.top && r.top + my < hr.bottom;
+        // напрямок руху рахуємо по вікну з кількох кадрів, інакше субпіксельний шум трясе горизонт
+        if (last && Math.hypot(cx - last.x, cy - last.y) > 400) hist.length = 0;
+        hist.push({ t: t, x: cx, y: cy }); if (hist.length > 8) hist.shift();
+        const h0 = hist[0], n = hist.length - 1;
         if (!onScreen) {
           roll = lerpAng(roll, 0, 0.04); pitch = lerp(pitch, 0, 0.04);
           turn = lerp(turn, 0, 0.04); throttle = lerp(throttle, 0.5, 0.04);
           prevAng = null;
-        } else if (last) {
-          const dt = Math.max(1, t - last.t) / 1000, dx = cx - last.x, dy = cy - last.y, v = Math.hypot(dx, dy);
+        } else if (n > 0) {
+          const dt = Math.max(1, t - last.t) / 1000, dx = cx - h0.x, dy = cy - h0.y, v = Math.hypot(dx, dy) / n;
           if (v > 0.15 && v < 400) {
             const ang = Math.atan2(dx, -dy) * 180 / Math.PI;          // напрямок руху на екрані, 0 = вгору
             hdg = ((lerpAng(hdg, ang + hdgOffset, 0.06)) % 360 + 360) % 360;
             // крен = поворот картинки: ніс праворуч = правий крен 90°, ніс униз = на спині
             const k = snap > 0 ? 0.6 : 0.14; if (snap > 0) snap--;
-            roll = lerpAng(roll, ang, k);
+            roll = wrap(lerpAng(roll, ang, k));
             pitch = lerp(pitch, Math.max(-25, Math.min(25, -dy / v * 22)), Math.max(0.1, k));
             if (prevAng !== null) turn = lerp(turn, Math.max(-1, Math.min(1, wrap(ang - prevAng) / dt / 40)), 0.05);
             prevAng = ang;
