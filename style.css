@@ -525,7 +525,7 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 
 /* ---------- Вітер у hero ---------- */
 .hero__wind { position: absolute; right: 6%; bottom: 11%; z-index: 1; display: flex; align-items: center; gap: 18px; text-align: right; color: #fff; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55); pointer-events: none; }
-.hero__field { width: 140px; height: 140px; flex-shrink: 0; filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5)); }
+.hero__field { width: 150px; height: 150px; flex-shrink: 0; filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5)); }
 .hero__field text { text-shadow: none; }
 .hero__wind-title { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.85; margin-bottom: 6px; }
 .hero__wind-day { font-size: 15px; line-height: 26px; font-weight: 300; }
