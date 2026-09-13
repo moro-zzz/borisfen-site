@@ -125,5 +125,15 @@
       <a href="index.html">На головну</a>
     </div>
   </footer>
+  <script>
+    (function () {
+      const burger = document.querySelector('.burger'), nav = document.querySelector('.nav');
+      if (!burger || !nav) return;
+      const toggle = (open) => { nav.classList.toggle('is-open', open); burger.classList.toggle('is-open', open); burger.setAttribute('aria-expanded', open); document.body.classList.toggle('menu-open', open); };
+      burger.addEventListener('click', () => toggle(!nav.classList.contains('is-open')));
+      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
+    })();
+  </script>
 </body>
 </html>

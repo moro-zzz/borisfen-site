@@ -118,10 +118,35 @@
           <img src="img/gallery/polyoty/trener-i-pult-thumb.jpg" alt="Тренувальна модель і апаратура перед польотом" width="640" height="480" loading="lazy">
           <span class="gallery__caption"><strong>Тренувальна модель і апаратура перед польотом</strong><small>Польоти</small></span>
         </a>
+        <a class="gallery__item" data-folder="maysternya" href="img/gallery/maysternya/3d-druk.jpg" data-gallery="club"
+           data-glightbox="title: 3D-друк деталей моделі; description: Майстерня">
+          <img src="img/gallery/maysternya/3d-druk-thumb.jpg" alt="3D-друк деталей моделі" width="360" height="640" loading="lazy">
+          <span class="gallery__caption"><strong>3D-друк деталей моделі</strong><small>Майстерня</small></span>
+        </a>
+        <a class="gallery__item" data-folder="maysternya" href="img/gallery/maysternya/chpk-frezeruvannya.jpg" data-gallery="club"
+           data-glightbox="title: Фрезерування заготовок на ЧПК; description: Майстерня">
+          <img src="img/gallery/maysternya/chpk-frezeruvannya-thumb.jpg" alt="Фрезерування заготовок на ЧПК" width="640" height="480" loading="lazy">
+          <span class="gallery__caption"><strong>Фрезерування заготовок на ЧПК</strong><small>Майстерня</small></span>
+        </a>
+        <a class="gallery__item" data-folder="maysternya" href="img/gallery/maysternya/matrytsya.jpg" data-gallery="club"
+           data-glightbox="title: Матриця з пінопласту для формування фюзеляжа; description: Майстерня">
+          <img src="img/gallery/maysternya/matrytsya-thumb.jpg" alt="Матриця з пінопласту для формування фюзеляжа" width="480" height="640" loading="lazy">
+          <span class="gallery__caption"><strong>Матриця з пінопласту для формування фюзеляжа</strong><small>Майстерня</small></span>
+        </a>
         <a class="gallery__item" data-folder="maysternya" href="img/gallery/maysternya/reaktyvna-model.jpg" data-gallery="club"
            data-glightbox="title: Реактивна модель з пінопласту, щойно з верстака; description: Майстерня">
           <img src="img/gallery/maysternya/reaktyvna-model-thumb.jpg" alt="Реактивна модель з пінопласту, щойно з верстака" width="640" height="480" loading="lazy">
           <span class="gallery__caption"><strong>Реактивна модель з пінопласту, щойно з верстака</strong><small>Майстерня</small></span>
+        </a>
+        <a class="gallery__item" data-folder="maysternya" href="img/gallery/maysternya/shlifuvannya-balzy.jpg" data-gallery="club"
+           data-glightbox="title: Шліфування бальзових рейок; description: Майстерня">
+          <img src="img/gallery/maysternya/shlifuvannya-balzy-thumb.jpg" alt="Шліфування бальзових рейок" width="640" height="360" loading="lazy">
+          <span class="gallery__caption"><strong>Шліфування бальзових рейок</strong><small>Майстерня</small></span>
+        </a>
+        <a class="gallery__item" data-folder="maysternya" href="img/gallery/maysternya/verstat.jpg" data-gallery="club"
+           data-glightbox="title: Саморобний верстат для різання пінопласту; description: Майстерня">
+          <img src="img/gallery/maysternya/verstat-thumb.jpg" alt="Саморобний верстат для різання пінопласту" width="640" height="480" loading="lazy">
+          <span class="gallery__caption"><strong>Саморобний верстат для різання пінопласту</strong><small>Майстерня</small></span>
         </a>
         <a class="gallery__item" data-folder="maysternya" href="img/gallery/maysternya/vysokoplan.jpg" data-gallery="club"
            data-glightbox="title: Decathlon, копія з EPP; description: Майстерня">
@@ -162,5 +187,15 @@
   </script>
 
 
+  <script>
+    (function () {
+      const burger = document.querySelector('.burger'), nav = document.querySelector('.nav');
+      if (!burger || !nav) return;
+      const toggle = (open) => { nav.classList.toggle('is-open', open); burger.classList.toggle('is-open', open); burger.setAttribute('aria-expanded', open); document.body.classList.toggle('menu-open', open); };
+      burger.addEventListener('click', () => toggle(!nav.classList.contains('is-open')));
+      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
+    })();
+  </script>
 </body>
 </html>
