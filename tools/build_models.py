@@ -92,7 +92,7 @@ page = f'''<!DOCTYPE html>
 
   <footer class="footer">
     <div class="container footer__inner">
-      <span>© Авіамодельний клуб «Борисфен», Київ</span>
+      <span>© Авіамодельний клуб «Борисфен»</span>
       <a href="index.html">На головну</a>
     </div>
   </footer>

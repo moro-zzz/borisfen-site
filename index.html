@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Борисфен — авіамодельний клуб</title>
-  <meta name="description" content="Авіамодельний клуб «Борисфен» при КАІ, Київ: навчання радіокерованому авіамоделюванню з 12 років, майстерня, польоти, змагання.">
+  <meta name="description" content="Авіамодельний клуб «Борисфен»: навчання радіокерованому авіамоделюванню з 12 років, майстерня, польоти, змагання.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -242,7 +242,7 @@
       const wxIcon = c => c <= 1 ? ICON.sun : c === 2 ? ICON.partly : c === 3 ? ICON.cloud : c <= 48 ? ICON.fog : (c >= 71 && c <= 77) || c === 85 || c === 86 ? ICON.snow : c >= 95 ? ICON.storm : ICON.rain;
       const verdict = (v, g) => v > 6 || g > 9 ? ['не літаємо', 'bad'] : v > 4 || g > 7 ? ['літати обережно', 'meh'] : ['можна літати', 'good'];
       try {
-        const url = 'https://api.open-meteo.com/v1/forecast?latitude=50.45&longitude=30.52&daily=weather_code,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,precipitation_probability_max,temperature_2m_max&wind_speed_unit=ms&timezone=Europe%2FKyiv&forecast_days=3';
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=50.40&longitude=30.63&daily=weather_code,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,precipitation_probability_max,temperature_2m_max&wind_speed_unit=ms&timezone=Europe%2FKyiv&forecast_days=3';
         const d = await (await fetch(url)).json();
         const days = d.daily, names = ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'], list = [];
         days.time.forEach((t, i) => {
