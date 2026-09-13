@@ -160,9 +160,9 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   36%  { transform: translate(53vw, 20vh) rotate(-23deg); }
   48%  { transform: translate(40vw, 12vh) rotate(-30deg); }
   60%  { transform: translate(27vw, 10vh) rotate(-38deg); }
-  72%  { transform: translate(15vw, 13vh) rotate(-46deg); }
-  84%  { transform: translate(3vw, 22vh) rotate(-53deg); }
-  100% { transform: translate(-40vw, 46vh) rotate(-58deg); }
+  72%  { transform: translate(14vw, 11vh) rotate(-42deg); }
+  84%  { transform: translate(0vw, 12vh) rotate(-46deg); }
+  100% { transform: translate(-40vw, 16vh) rotate(-50deg); }
 }
 
 .hero__content {
@@ -180,10 +180,11 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   font-weight: 300;
   font-size: 72px;
   line-height: 1.1;
-  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45), 0 4px 30px rgba(0, 0, 0, 0.35);
 }
 
 .hero__subtitle {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   margin-top: 14px;
   font-weight: 400;
   font-size: 14px;
