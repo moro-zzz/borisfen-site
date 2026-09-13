@@ -157,9 +157,9 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   0%   { transform: translate(108vw, 70vh) rotate(-6deg); }
   18%  { transform: translate(68vw, 44vh) rotate(-14deg); }
   30%  { transform: translate(68vw, 42vh) rotate(-12deg); }
-  50%  { transform: translate(44vw, 10vh) rotate(-24deg); }
-  66%  { transform: translate(24vw, 8vh) rotate(-40deg); }
-  84%  { transform: translate(4vw, 26vh) rotate(-52deg); }
+  50%  { transform: translate(44vw, -6vh) rotate(-24deg); }
+  66%  { transform: translate(22vw, -8vh) rotate(-40deg); }
+  84%  { transform: translate(2vw, 14vh) rotate(-52deg); }
   100% { transform: translate(-40vw, 44vh) rotate(-58deg); }
 }
 
