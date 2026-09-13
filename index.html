@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css">
-  <link rel="stylesheet" href="style.css?v=202609132216">
+  <link rel="stylesheet" href="style.css?v=202609132221">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -412,7 +412,7 @@
             rain: days.precipitation_probability_max[i], temp: Math.round(days.temperature_2m_max[i]), vt, vc });
         });
         const cols = ['#47ded9', '#ffffff', '#f5b400'];
-        $('wind-weekend').innerHTML = '<div class="hero__wind-title">Чи льотна погода найближчими днями?</div>' + list.slice(0, 3).map((w, i) => {
+        $('wind-weekend').innerHTML = list.slice(0, 3).map((w, i) => {
           const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
           const rain = w.rain >= 50 ? ' · дощ ' + w.rain + '%' : '';
           const gust = w.g >= 7 ? ' (пориви ' + w.g + ')' : '';

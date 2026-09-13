@@ -185,9 +185,11 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  background: rgba(0, 0, 0, 0.5);
-  text-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(2px);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 .hero__subtitle {
@@ -200,8 +202,9 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   text-transform: uppercase;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  background: rgba(0, 0, 0, 0.45);
-  text-shadow: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
   opacity: 0.95;
 }
 
@@ -544,7 +547,7 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 .hero__field text { text-shadow: none; }
 .hero__wind-legend { order: -1; margin-bottom: 2px; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; align-self: flex-start; }
 .hero__wind-title { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 6px; }
-.hero__wind-day { display: inline-flex; align-items: center; gap: 4px; margin: 0 0 6px; padding: 3px 10px; font-size: 13px; line-height: 20px; font-weight: 300; border: 1px solid rgba(255, 255, 255, 0.7); background: rgba(0, 0, 0, 0.5); text-shadow: none; }
+.hero__wind-day { display: inline-flex; align-items: center; gap: 4px; margin: 0 0 6px; padding: 4px 14px; font-size: 13px; line-height: 20px; font-weight: 300; border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 999px; background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(2px); text-shadow: none; }
 .hero__wind-text { display: flex; flex-direction: column; align-items: flex-start; }
 .hero__wind-map { display: flex; flex-direction: column; align-items: center; gap: 2px; opacity: 0.9; }
 .hero__wind-day strong { font-weight: 500; }
@@ -569,11 +572,12 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 
 /* ---------- HUD ---------- */
 .hero__hud { position: absolute; left: 0; right: 0; top: 84px; bottom: 0; width: 100%; height: calc(100% - 84px); z-index: 1; pointer-events: none; opacity: 0.6; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)); }
-.hero__hud .hud-line line, .hero__hud .hud-line path, .hero__hud .hud-line rect:not(.hud-box), .hero__hud .hud-line circle:not(.hud-red) { stroke: #fff; stroke-width: 1.3; fill: none; }
-.hero__hud .hud-line line.hud-horizon { stroke: #7cfc7c; stroke-width: 2.4; }
-.hero__hud .hud-red { stroke: #ff5a4e; stroke-width: 2.2; fill: #ff5a4e; }
+.hero__hud .hud-line line, .hero__hud .hud-line path, .hero__hud .hud-line rect:not(.hud-box), .hero__hud .hud-line circle:not(.hud-red) { stroke: rgba(255, 255, 255, 0.9); stroke-width: 1.1; stroke-linecap: round; fill: none; }
+.hero__hud .hud-line rect:not(.hud-box) { rx: 8; }
+.hero__hud .hud-line line.hud-horizon { stroke: #47ded9; stroke-width: 2.2; }
+.hero__hud .hud-red { stroke: #47ded9; stroke-width: 2; fill: #47ded9; stroke-linejoin: round; stroke-linecap: round; }
 .hero__hud .hud-red path { fill: none; }
-.hero__hud .hud-box { fill: rgba(0, 0, 0, 0.5); stroke: #fff; stroke-width: 0.8; }
+.hero__hud .hud-box { fill: rgba(255, 255, 255, 0.16); stroke: rgba(255, 255, 255, 0.7); stroke-width: 0.8; rx: 11; }
 .hero__hud .hud-txt { font-family: 'Ubuntu', sans-serif; font-size: 12px; fill: #fff; }
 .hero__hud .hud-txt--c { text-anchor: middle; }
 .hero__hud .hud-txt--r { text-anchor: end; }
