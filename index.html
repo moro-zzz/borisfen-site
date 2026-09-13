@@ -501,7 +501,8 @@
           '<text x="' + (x + S / 2) + '" y="' + (y0 + S + 14) + '" class="hud-txt hud-txt--c hud-txt--dim">' + label + '</text>';
         const rud = Math.max(-1, Math.min(1, turn)), thr = Math.max(-1, Math.min(1, throttle * 2 - 1));
         const c = window.__ctl;   // ручний режим: стік повторює курсор
-        const ail = c ? c.ail : Math.max(-1, Math.min(1, roll / 90)), ele = c ? c.ele : Math.max(-1, Math.min(1, pitch / 25));
+        // елеватор реверсний і на автопілоті: набір висоти = стік «на себе» (точка вниз), пікірування = «від себе»
+        const ail = c ? c.ail : Math.max(-1, Math.min(1, roll / 90)), ele = c ? c.ele : Math.max(-1, Math.min(1, -pitch / 25));
         $('hud-sticks').innerHTML = '<g class="hud-line">' + box(xl, rud, thr, 'THR / RUD') + box(xr, ail, ele, 'AIL / ELE') + '</g>';
       }
       let turn = 0, throttle = 0.6, snap = 0, hist = [];
