@@ -245,7 +245,7 @@
           const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
           const rain = w.rain >= 50 ? ' · дощ ' + w.rain + '%' : '';
           const gust = w.g >= 7 ? ' (пориви ' + w.g + ')' : '';
-          return '<div class="hero__wind-day is-' + w.vc + (w.isWe ? ' is-weekend' : '') + '"><strong>' + w.label + '</strong> <span>' + w.v + ' м/с' + gust + ', ' + w.dir + ' ' + arrow + ' · до ' + w.temp + ' °C' + rain + ' ·</span> <b class="hero__wind-verdict">' + w.vt + '</b></div>';
+          return '<div class="hero__wind-day is-' + w.vc + (w.isWe ? ' is-weekend' : '') + '"><strong>' + w.label + '</strong> <span>' + w.v + ' м/с' + gust + ' · до ' + w.temp + ' °C' + rain + ' ·</span> <b class="hero__wind-verdict">' + w.vt + '</b></div>';
         }).join('');
         // стрілки зльоту на 3 найближчі дні
         const cols = ['#47ded9', '#ffffff', '#f5b400'];
