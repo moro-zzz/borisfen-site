@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -117,6 +118,60 @@
     </div>
   </section>
 
+  <!--GALLERY-->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-head__kicker">Галерея</p>
+        <h2 class="section-head__title">Наші моделі та польоти</h2>
+        <div class="gallery__filters"><button class="gallery__filter is-active" data-filter="all">Усі</button><button class="gallery__filter" data-filter="polyoty">Польоти</button><button class="gallery__filter" data-filter="maysternya">Майстерня</button></div>
+      </div>
+      <div class="gallery__grid">
+        <a class="gallery__item" data-folder="polyoty" href="img/gallery/polyoty/dvomotorna-model.jpg" data-gallery="club"
+           data-glightbox="title: Двомоторна модель перед стартом на польовій смузі; description: Польоти">
+          <img src="img/gallery/polyoty/dvomotorna-model-thumb.jpg" alt="Двомоторна модель перед стартом на польовій смузі" width="640" height="360" loading="lazy">
+          <span class="gallery__caption"><strong>Двомоторна модель перед стартом на польовій смузі</strong><small>Польоти</small></span>
+        </a>
+        <a class="gallery__item" data-folder="polyoty" href="img/gallery/polyoty/kopii-vynyshchuvachiv.jpg" data-gallery="club"
+           data-glightbox="title: Моделі-копії перед груповим польотом; description: Польоти">
+          <img src="img/gallery/polyoty/kopii-vynyshchuvachiv-thumb.jpg" alt="Моделі-копії перед груповим польотом" width="640" height="480" loading="lazy">
+          <span class="gallery__caption"><strong>Моделі-копії перед груповим польотом</strong><small>Польоти</small></span>
+        </a>
+        <a class="gallery__item" data-folder="polyoty" href="img/gallery/polyoty/model-u-nebi.jpg" data-gallery="club"
+           data-glightbox="title: Пілотажна модель у польоті; description: Польоти">
+          <img src="img/gallery/polyoty/model-u-nebi-thumb.jpg" alt="Пілотажна модель у польоті" width="640" height="480" loading="lazy">
+          <span class="gallery__caption"><strong>Пілотажна модель у польоті</strong><small>Польоти</small></span>
+        </a>
+        <a class="gallery__item" data-folder="polyoty" href="img/gallery/polyoty/plyazh.jpg" data-gallery="club"
+           data-glightbox="title: Тренувальна модель перед польотом; description: Польоти">
+          <img src="img/gallery/polyoty/plyazh-thumb.jpg" alt="Тренувальна модель перед польотом" width="640" height="597" loading="lazy">
+          <span class="gallery__caption"><strong>Тренувальна модель перед польотом</strong><small>Польоти</small></span>
+        </a>
+        <a class="gallery__item" data-folder="polyoty" href="img/gallery/polyoty/thunderbolt.jpg" data-gallery="club"
+           data-glightbox="title: Пілотажна модель на низькому проході; description: Польоти">
+          <img src="img/gallery/polyoty/thunderbolt-thumb.jpg" alt="Пілотажна модель на низькому проході" width="640" height="429" loading="lazy">
+          <span class="gallery__caption"><strong>Пілотажна модель на низькому проході</strong><small>Польоти</small></span>
+        </a>
+        <a class="gallery__item" data-folder="polyoty" href="img/gallery/polyoty/trener-i-pult.jpg" data-gallery="club"
+           data-glightbox="title: Тренувальна модель і апаратура перед польотом; description: Польоти">
+          <img src="img/gallery/polyoty/trener-i-pult-thumb.jpg" alt="Тренувальна модель і апаратура перед польотом" width="640" height="480" loading="lazy">
+          <span class="gallery__caption"><strong>Тренувальна модель і апаратура перед польотом</strong><small>Польоти</small></span>
+        </a>
+        <a class="gallery__item" data-folder="maysternya" href="img/gallery/maysternya/extra-300.jpg" data-gallery="club"
+           data-glightbox="title: Пілотажна модель класу Extra; description: Майстерня">
+          <img src="img/gallery/maysternya/extra-300-thumb.jpg" alt="Пілотажна модель класу Extra" width="640" height="480" loading="lazy">
+          <span class="gallery__caption"><strong>Пілотажна модель класу Extra</strong><small>Майстерня</small></span>
+        </a>
+        <a class="gallery__item" data-folder="maysternya" href="img/gallery/maysternya/vysokoplan.jpg" data-gallery="club"
+           data-glightbox="title: Тренувальний високоплан після збирання; description: Майстерня">
+          <img src="img/gallery/maysternya/vysokoplan-thumb.jpg" alt="Тренувальний високоплан після збирання" width="640" height="480" loading="lazy">
+          <span class="gallery__caption"><strong>Тренувальний високоплан після збирання</strong><small>Майстерня</small></span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!--/GALLERY-->
+
   <script>
     // Траєкторія польоту моделі: перераховується від розміру hero
     (function () {
@@ -133,5 +188,17 @@
       window.addEventListener('resize', setPath);
     })();
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/js/glightbox.min.js"></script>
+  <script>
+    GLightbox({ selector: '.gallery__item', touchNavigation: true, loop: true, openEffect: 'zoom', closeEffect: 'fade' });
+    document.querySelectorAll('.gallery__filter').forEach(btn => btn.addEventListener('click', () => {
+      document.querySelectorAll('.gallery__filter').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.gallery__item').forEach(it => { it.hidden = f !== 'all' && it.dataset.folder !== f; });
+    }));
+  </script>
+
+
 </body>
 </html>
