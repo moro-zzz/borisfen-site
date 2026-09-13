@@ -531,7 +531,8 @@ table.plan tfoot td { font-weight: 500; color: #111; border-top: 2px solid #ddd;
 .hero__wind-title { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.85; margin-bottom: 6px; }
 .hero__wind-day { font-size: 15px; line-height: 26px; font-weight: 300; }
 .hero__wind-map { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.hero__wind-text { order: 1; }
+.hero__wind-text { order: 0; }
+.hero__wind-map { order: 1; }
 .hero__wind-day strong { font-weight: 500; }
 .hero__wind-day span { opacity: 0.9; }
 .hero__wind-verdict { font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; font-size: 14px; }
