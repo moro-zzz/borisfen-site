@@ -133,21 +133,14 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 70% 85%, rgba(255, 255, 255, 0.35), transparent 70%),
-    linear-gradient(180deg, #0f2a44 0%, #1d5b8a 40%, #4a9ccf 75%, #a9d3ec 100%);
+    linear-gradient(180deg, rgba(8, 24, 40, 0.55) 0%, rgba(8, 24, 40, 0.25) 45%, rgba(8, 24, 40, 0.45) 100%),
+    url("img/hero.jpg") center 60% / cover no-repeat;
 }
 
-.hero__clouds {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 320px 90px at 15% 62%, rgba(255, 255, 255, 0.22), transparent 70%),
-    radial-gradient(ellipse 420px 110px at 82% 48%, rgba(255, 255, 255, 0.18), transparent 70%),
-    radial-gradient(ellipse 260px 70px at 50% 78%, rgba(255, 255, 255, 0.16), transparent 70%);
-  filter: blur(6px);
-}
+.hero__clouds { display: none; }
 
 .hero__plane {
+  display: none;
   position: absolute;
   right: 9%;
   bottom: 5%;
