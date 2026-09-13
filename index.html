@@ -358,7 +358,7 @@
         if (!leaving) {
           if (px < -m) px = W + m; else if (px > W + m) px = -m;
           if (py < HEADER - m) py = H + m; else if (py > H + m) py = HEADER - m;
-          if (!lock && t - lastInput > IDLE) leaving = true;
+          if (!lock && t - lastInput > IDLE) { leaving = true; showMode('auto'); }
         } else if (px < -w || px > W + w || py < -hh || py > H + hh) { release(); return; }
         plane.style.transform = 'translate(' + (px - w / 2) + 'px, ' + (py - hh / 2) + 'px) rotate(' + (th + NOSE) + 'deg)';
         requestAnimationFrame(step);
@@ -376,11 +376,11 @@
           engage();
         });
         // курсор вийшов із зони керування: одразу AUTO (модель відлітає за екран і повертається на маршрут)
-        hero.addEventListener('mouseleave', () => { mouse = null; moveSince = 0; lastInput = performance.now(); if (manual) { lock = false; leaving = true; } });
+        hero.addEventListener('mouseleave', () => { mouse = null; moveSince = 0; lastInput = performance.now(); if (manual) { lock = false; leaving = true; showMode('auto'); } });
       }
       modeBtns.forEach(b => b.addEventListener('click', () => {
         if (b.dataset.mode === 'manual') { lock = true; engage(true); showMode('manual'); }
-        else { lock = false; if (manual) leaving = true; }   // AUTO: модель відлітає за екран і повертається на маршрут
+        else { lock = false; if (manual) { leaving = true; showMode('auto'); } }   // AUTO: модель відлітає за екран і повертається на маршрут
       }));
       window.addEventListener('resize', () => plane.style.setProperty('--fly', JSON.stringify(toPx(ROUTES[current]))));
     })();
