@@ -253,14 +253,14 @@
             dir: dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8], deg: days.wind_direction_10m_dominant[i],
             rain: days.precipitation_probability_max[i], temp: Math.round(days.temperature_2m_max[i]), vt, vc });
         });
-        $('wind-weekend').innerHTML = '<div class="hero__wind-title">Чи льотна погода найближчими днями?</div>' + list.slice(0, 3).map(w => {
+        const cols = ['#47ded9', '#ffffff', '#f5b400'];
+        $('wind-weekend').innerHTML = '<div class="hero__wind-title">Чи льотна погода найближчими днями?</div>' + list.slice(0, 3).map((w, i) => {
           const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
           const rain = w.rain >= 50 ? ' · дощ ' + w.rain + '%' : '';
           const gust = w.g >= 7 ? ' (пориви ' + w.g + ')' : '';
-          return '<div class="hero__wind-day is-' + w.vc + (w.isWe ? ' is-weekend' : '') + '"><strong>' + w.label + '</strong> ' + w.wx + ' <span>' + w.v + ' м/с' + gust + ' · ' + ICON.temp + 'до ' + w.temp + ' °C' + rain + ' ·</span> <b class="hero__wind-verdict">' + w.vt + '</b></div>';
+          return '<div class="hero__wind-day is-' + w.vc + (w.isWe ? ' is-weekend' : '') + '"><strong style="color:' + cols[i] + '">' + w.label + '</strong> ' + w.wx + ' <span>' + w.v + ' м/с' + gust + ' · ' + ICON.temp + 'до ' + w.temp + ' °C' + rain + ' ·</span> <b class="hero__wind-verdict">' + w.vt + '</b></div>';
         }).join('');
         // стрілки зльоту на 3 найближчі дні
-        const cols = ['#47ded9', '#ffffff', '#f5b400'];
         $('wind-arrows').innerHTML = list.slice(0, 3).map((w, i) => {
           const col = cols[i], short = w.short;
           const deg = w.deg - 44, th = deg * Math.PI / 180, dx = Math.sin(th), dy = -Math.cos(th);
