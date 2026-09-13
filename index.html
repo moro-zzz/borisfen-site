@@ -223,13 +223,13 @@
           const dt = new Date(t + 'T12:00:00'), wd = dt.getDay();
           if (wd !== 0 && wd !== 6) return;
           const [vt, vc] = verdict(days.wind_speed_10m_max[i], days.wind_gusts_10m_max[i]);
-          weekend.push({ name: wd === 6 ? 'Субота' : 'Неділя', date: dt.getDate(), v: Math.round(days.wind_speed_10m_max[i]), g: Math.round(days.wind_gusts_10m_max[i]), dir: dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8], deg: days.wind_direction_10m_dominant[i], rain: days.precipitation_probability_max[i], vt, vc });
+          weekend.push({ name: wd === 6 ? 'Субота' : 'Неділя', date: dt.getDate(), v: Math.round(days.wind_speed_10m_max[i]), g: Math.round(days.wind_gusts_10m_max[i]), dir: dirs[Math.round(days.wind_direction_10m_dominant[i] / 45) % 8], deg: days.wind_direction_10m_dominant[i], rain: days.precipitation_probability_max[i], temp: Math.round(days.temperature_2m_max[i]), vt, vc });
         });
         $('wind-weekend').innerHTML = weekend.slice(0, 2).map(w => {
           const why = w.vc === 'good' ? 'вітер до ' + w.v + ' м/с' : 'вітер ' + w.v + ' м/с, пориви до ' + w.g + ' м/с';
           const rain = w.rain >= 50 ? ', ймовірний дощ ' + w.rain + '%' : '';
           const arrow = '<span class="wind__arrow" style="transform: rotate(' + (w.deg + 90) + 'deg)" aria-hidden="true">➤</span>';
-          return '<div class="wind__we is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong><span>' + w.vt.replace('Легка модель: ', '') + '</span><small>' + why + ', напрямок ' + w.dir + ' ' + arrow + rain + '</small></div>';
+          return '<div class="wind__we is-' + w.vc + '"><strong>' + w.name + ' ' + w.date + '</strong><span>' + w.vt.replace('Легка модель: ', '') + '</span><small>' + why + ', напрямок ' + w.dir + ' ' + arrow + ', до ' + w.temp + ' °C' + rain + '</small></div>';
         }).join('');
       } catch (e) {
         $('wind-weekend').innerHTML = '<p class="small">Не вдалося отримати дані про вітер. Спробуйте оновити сторінку.</p>';
